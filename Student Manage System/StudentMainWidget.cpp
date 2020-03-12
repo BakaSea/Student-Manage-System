@@ -1,4 +1,4 @@
-#include "StudentMainWidget.h"
+﻿#include "StudentMainWidget.h"
 
 StudentMainWidget::StudentMainWidget(QWidget *parent)
 	: QWidget(parent) {

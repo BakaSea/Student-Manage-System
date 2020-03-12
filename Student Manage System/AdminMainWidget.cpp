@@ -1,4 +1,4 @@
-#include "AdminMainWidget.h"
+ï»¿#include "AdminMainWidget.h"
 #include "CourseWidget.h"
 #include "LoginWidget.h"
 #include <stdio.h>
@@ -23,11 +23,11 @@ void AdminMainWidget::inputCourse() {
 	string path = QFileDialog::getOpenFileName(this, "", ".", "(*.txt)").toLocal8Bit().toStdString();
 	FILE* fp1 = fopen(path.c_str(), "r");
 	if (fp1 == NULL) {
-		QMessageBox::critical(NULL, "Error", QString::fromLocal8Bit("Â¼ÈëÊ§°Ü£¡"));
+		QMessageBox::critical(NULL, "Error", QString::fromLocal8Bit("å½•å…¥å¤±è´¥ï¼"));
 	} else {
 		FILE* fp2 = fopen("currentcourse.txt", "w");
 		if (fp2 == NULL) {
-			QMessageBox::critical(NULL, "Error", QString::fromLocal8Bit("Â¼ÈëÊ§°Ü£¡"));
+			QMessageBox::critical(NULL, "Error", QString::fromLocal8Bit("å½•å…¥å¤±è´¥ï¼"));
 		} else {
 			int cap, cnt;
 			char id[10], name[70], teacher[50], type[10];
@@ -36,7 +36,7 @@ void AdminMainWidget::inputCourse() {
 				fprintf(fp2, "%s\t%s\t%s\t%d\t%d\t%s\n", id, name, teacher, cap, cnt, type);
 			}
 			fclose(fp2);
-			QMessageBox::information(NULL, "Confirm", QString::fromLocal8Bit("Â¼Èë³É¹¦£¡"));
+			QMessageBox::information(NULL, "Confirm", QString::fromLocal8Bit("å½•å…¥æˆåŠŸï¼"));
 			ui.btnInputCourse->setEnabled(false);
 		}
 		fclose(fp1);
