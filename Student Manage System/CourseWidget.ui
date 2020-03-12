@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CourseWidget</class>
+ <widget class="QWidget" name="CourseWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>830</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>CourseWidget</string>
+  </property>
+  <widget class="QTableWidget" name="tableCourse">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>621</width>
+     <height>381</height>
+    </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="rowCount">
+    <number>0</number>
+   </property>
+   <property name="columnCount">
+    <number>6</number>
+   </property>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <column>
+    <property name="text">
+     <string>课程ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>课程名称</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>授课教师</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>容纳人数</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>已选人数</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>课程类型</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
