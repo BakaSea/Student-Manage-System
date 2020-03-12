@@ -1,4 +1,4 @@
-#include "CourseWidget.h"
+﻿#include "CourseWidget.h"
 #include <stdio.h>
 
 CourseWidget::CourseWidget(QWidget *parent)

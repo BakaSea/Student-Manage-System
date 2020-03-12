@@ -1,4 +1,4 @@
-#include "LoginWidget.h"
+ï»¿#include "LoginWidget.h"
 #include <stdio.h>
 #include <string.h>
 #include "AdminMainWidget.h"
@@ -14,14 +14,14 @@ void LoginWidget::loginStudent() {
 	map<string, string>::iterator iter = mapStu.find(ui.lineUsername->text().toStdString());
 	if (iter == mapStu.end()) {
 		ui.labelWarning->setStyleSheet("color:red");
-		ui.labelWarning->setText(QString::fromLocal8Bit("ÓÃ»§Ãû´íÎó£¡"));
+		ui.labelWarning->setText(QString::fromLocal8Bit("ç”¨æˆ·åé”™è¯¯ï¼"));
 	} else {
 		if (ui.linePassword->text().toStdString() == iter->second) {
 			ui.labelWarning->setStyleSheet("color:green");
-			ui.labelWarning->setText(QString::fromLocal8Bit("µÇÂ¼³É¹¦£¡"));
+			ui.labelWarning->setText(QString::fromLocal8Bit("ç™»å½•æˆåŠŸï¼"));
 		} else {
 			ui.labelWarning->setStyleSheet("color:red");
-			ui.labelWarning->setText(QString::fromLocal8Bit("ÃÜÂë´íÎó£¡"));
+			ui.labelWarning->setText(QString::fromLocal8Bit("å¯†ç é”™è¯¯ï¼"));
 		}
 	}
 }
@@ -30,17 +30,17 @@ void LoginWidget::loginAdmin() {
 	if (ui.lineUsername->text() == "Admin") {
 		if (ui.linePassword->text() == "admin") {
 			ui.labelWarning->setStyleSheet("color:green");
-			ui.labelWarning->setText(QString::fromLocal8Bit("µÇÂ¼³É¹¦£¡"));
+			ui.labelWarning->setText(QString::fromLocal8Bit("ç™»å½•æˆåŠŸï¼"));
 			this->close();
 			AdminMainWidget* amw = new AdminMainWidget();
 			amw->show();
 		} else {
 			ui.labelWarning->setStyleSheet("color:red");
-			ui.labelWarning->setText(QString::fromLocal8Bit("ÃÜÂë´íÎó£¡"));
+			ui.labelWarning->setText(QString::fromLocal8Bit("å¯†ç é”™è¯¯ï¼"));
 		}
 	} else {
 		ui.labelWarning->setStyleSheet("color:red");
-		ui.labelWarning->setText(QString::fromLocal8Bit("ÓÃ»§Ãû´íÎó£¡"));
+		ui.labelWarning->setText(QString::fromLocal8Bit("ç”¨æˆ·åé”™è¯¯ï¼"));
 	}
 }
 
@@ -53,25 +53,25 @@ void LoginWidget::registerStudent() {
 			FILE* fp = fopen(id.c_str(), "w");
 			if (fp == NULL) {
 				ui.labelWarning->setStyleSheet("color:red");
-				ui.labelWarning->setText(QString::fromLocal8Bit("×¢²áÊ§°Ü£¡"));
+				ui.labelWarning->setText(QString::fromLocal8Bit("æ³¨å†Œå¤±è´¥ï¼"));
 			} else {
 				fclose(fp);
 				if (updateStudentList()) {
 					ui.labelWarning->setStyleSheet("color:green");
-					ui.labelWarning->setText(QString::fromLocal8Bit("×¢²á³É¹¦£¡"));
+					ui.labelWarning->setText(QString::fromLocal8Bit("æ³¨å†ŒæˆåŠŸï¼"));
 				} else {
 					ui.labelWarning->setStyleSheet("color:red");
-					ui.labelWarning->setText(QString::fromLocal8Bit("×¢²áÊ§°Ü£¡"));
+					ui.labelWarning->setText(QString::fromLocal8Bit("æ³¨å†Œå¤±è´¥ï¼"));
 				}
 			}
 			
 		} else {
 			ui.labelWarning->setStyleSheet("color:red");
-			ui.labelWarning->setText(QString::fromLocal8Bit("ÓÃ»§ÒÑ´æÔÚ£¡"));
+			ui.labelWarning->setText(QString::fromLocal8Bit("ç”¨æˆ·å·²å­˜åœ¨ï¼"));
 		}
 	} else {
 		ui.labelWarning->setStyleSheet("color:red");
-		ui.labelWarning->setText(QString::fromLocal8Bit("ÓÃ»§Ãû²»ºÏ·¨£¨9Î»Ñ§ºÅ£©£¡"));
+		ui.labelWarning->setText(QString::fromLocal8Bit("ç”¨æˆ·åä¸åˆæ³•ï¼ˆ9ä½å­¦å·ï¼‰ï¼"));
 	}
 }
 

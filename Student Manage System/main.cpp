@@ -1,4 +1,4 @@
-#include "LoginWidget.h"
+﻿#include "LoginWidget.h"
 #include <QtWidgets/QApplication>
 
 int main(int argc, char *argv[]) {

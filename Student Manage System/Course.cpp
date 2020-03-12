@@ -1,17 +1,17 @@
-#include "Course.h"
+﻿#include "Course.h"
 
 string Course::getTypeName() {
 	if (type == SPEC) {
-		return "רҵ��";
+		return "专业课";
 	}
 	if (type == NONSPEC) {
-		return "��רҵ��";
+		return "非专业课";
 	}
 	return string();
 }
 
 Course::CourseType Course::getType(string type) {
-	if (type == "רҵ��") {
+	if (type == "专业课") {
 		return SPEC;
 	} else {
 		return NONSPEC;
