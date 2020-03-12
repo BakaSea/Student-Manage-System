@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>830</width>
+    <width>850</width>
     <height>400</height>
    </rect>
   </property>
@@ -18,18 +18,21 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>621</width>
+     <width>721</width>
      <height>381</height>
     </rect>
    </property>
    <property name="editTriggers">
     <set>QAbstractItemView::NoEditTriggers</set>
    </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
    <property name="rowCount">
     <number>0</number>
    </property>
    <property name="columnCount">
-    <number>6</number>
+    <number>7</number>
    </property>
    <attribute name="verticalHeaderVisible">
     <bool>false</bool>
@@ -64,9 +67,108 @@
      <string>课程类型</string>
     </property>
    </column>
+   <column>
+    <property name="text">
+     <string>选择</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="btnAddCourse">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>10</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>增加课程</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnDeleteCourse">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>60</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>删除课程</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnModifyCourse">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>110</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>修改课程</string>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btnAddCourse</sender>
+   <signal>clicked()</signal>
+   <receiver>CourseWidget</receiver>
+   <slot>addCourse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>828</x>
+     <y>35</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>690</x>
+     <y>170</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnDeleteCourse</sender>
+   <signal>clicked()</signal>
+   <receiver>CourseWidget</receiver>
+   <slot>deleteCourse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>764</x>
+     <y>84</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>702</x>
+     <y>212</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnModifyCourse</sender>
+   <signal>clicked()</signal>
+   <receiver>CourseWidget</receiver>
+   <slot>modifyCourse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>785</x>
+     <y>136</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>712</x>
+     <y>266</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>addCourse()</slot>
+  <slot>deleteCourse()</slot>
+  <slot>modifyCourse()</slot>
+  <slot>selectAll(int,int)</slot>
+ </slots>
 </ui>

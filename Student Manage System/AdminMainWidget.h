@@ -18,6 +18,10 @@ protected slots:
 	void inputCourse();
 	void viewCourse();
 
+protected:
+	void closeEvent(QCloseEvent* event);
+
 private:
 	Ui::AdminMainWidget ui;
+	vector<QWidget*> childWidget;
 };

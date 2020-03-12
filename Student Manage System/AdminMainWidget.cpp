@@ -8,6 +8,7 @@
 AdminMainWidget::AdminMainWidget(QWidget *parent)
 	: QWidget(parent) {
 	ui.setupUi(this);
+	childWidget.clear();
 	FILE* fp = fopen("currentcourse.txt", "r");
 	if (fp != NULL) {
 		ui.btnInputCourse->setEnabled(false);
@@ -45,7 +46,16 @@ void AdminMainWidget::inputCourse() {
 
 void AdminMainWidget::viewCourse() {
 	CourseWidget* cw = new CourseWidget();
+	childWidget.push_back(cw);
 	cw->show();
+}
+
+void AdminMainWidget::closeEvent(QCloseEvent* event) {
+	for (int i = 0; i < childWidget.size(); ++i) {
+		if (childWidget[i] != NULL) {
+			childWidget[i]->close();
+		}
+	}
 }
 
 void AdminMainWidget::logout() {

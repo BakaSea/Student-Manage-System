@@ -8,3 +8,11 @@ StudentMainWidget::StudentMainWidget(QWidget *parent)
 StudentMainWidget::~StudentMainWidget() {
 
 }
+
+void StudentMainWidget::closeEvent(QCloseEvent* event) {
+	for (int i = 0; i < childWidget.size(); ++i) {
+		if (childWidget[i] != NULL) {
+			childWidget[i]->close();
+		}
+	}
+}

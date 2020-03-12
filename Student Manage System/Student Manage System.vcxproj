@@ -81,11 +81,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AddCourseWidget.cpp" />
     <ClCompile Include="AdminMainWidget.cpp" />
     <ClCompile Include="Course.cpp" />
     <ClCompile Include="CourseWidget.cpp" />
     <ClCompile Include="LoginWidget.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ModifyCourseWidget.cpp" />
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="StudentMainWidget.cpp" />
   </ItemGroup>
@@ -93,19 +95,25 @@
     <QtMoc Include="LoginWidget.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="AddCourseWidget.ui" />
     <QtUic Include="AdminMainWidget.ui" />
     <QtUic Include="CourseWidget.ui" />
     <QtUic Include="LoginWidget.ui" />
+    <QtUic Include="ModifyCourseWidget.ui" />
     <QtUic Include="StudentMainWidget.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="LoginWidget.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="AddCourseWidget.h" />
     <ClInclude Include="Course.h" />
+    <QtMoc Include="ModifyCourseWidget.h" />
+    <ClInclude Include="x64\Debug\uic\ui_AddCourseWidget.h" />
     <ClInclude Include="x64\Debug\uic\ui_CourseWidget.h" />
     <QtMoc Include="CourseWidget.h" />
     <ClInclude Include="x64\Debug\uic\ui_AdminMainWidget.h" />
+    <ClInclude Include="x64\Debug\uic\ui_ModifyCourseWidget.h" />
     <ClInclude Include="x64\Debug\uic\ui_StudentMainWidget.h" />
     <QtMoc Include="AdminMainWidget.h" />
     <ClInclude Include="Student.h" />
