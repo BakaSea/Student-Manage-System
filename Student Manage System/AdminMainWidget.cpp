@@ -4,12 +4,13 @@
 #include <stdio.h>
 #include <qfiledialog.h>
 #include <qmessagebox.h>
+#include "Course.h"
 
 AdminMainWidget::AdminMainWidget(QWidget *parent)
 	: QWidget(parent) {
 	ui.setupUi(this);
 	childWidget.clear();
-	FILE* fp = fopen("currentcourse.txt", "r");
+	FILE* fp = fopen("./data/course/currentcourse.txt", "r");
 	if (fp != NULL) {
 		ui.btnInputCourse->setEnabled(false);
 		fclose(fp);
@@ -24,20 +25,30 @@ void AdminMainWidget::inputCourse() {
 	string path = QFileDialog::getOpenFileName(this, "", ".", "(*.txt)").toLocal8Bit().toStdString();
 	FILE* fp1 = fopen(path.c_str(), "r");
 	if (fp1 == NULL) {
-		QMessageBox::critical(NULL, "Error", QString::fromLocal8Bit("录入失败！"));
+		QMessageBox::critical(this, "Error", QString::fromLocal8Bit("录入失败！"));
 	} else {
-		FILE* fp2 = fopen("currentcourse.txt", "w");
+		QDir dir;
+		if (!dir.exists("./data")) {
+			dir.mkdir("./data");
+		}
+		if (!dir.exists("./data/course")) {
+			dir.mkdir("./data/course");
+		}
+		FILE* fp2 = fopen("./data/course/currentcourse.txt", "w");
 		if (fp2 == NULL) {
-			QMessageBox::critical(NULL, "Error", QString::fromLocal8Bit("录入失败！"));
+			QMessageBox::critical(this, "Error", QString::fromLocal8Bit("录入失败！"));
 		} else {
-			int cap, cnt;
-			char id[10], name[70], teacher[50], type[10];
+			int cap, cnt, id;
+			char name[70], teacher[50], type[10];
 			while (!feof(fp1)) {
-				fscanf(fp1, "%s\t%s\t%s\t%d\t%d\t%s", id, name, teacher, &cap, &cnt, type);
-				fprintf(fp2, "%s\t%s\t%s\t%d\t%d\t%s\n", id, name, teacher, cap, cnt, type);
+				int x = fscanf(fp1, "%d\t%s\t%s\t%d\t%d\t%s", &id, name, teacher, &cap, &cnt, type);
+				if (x == -1) break;
+				fprintf(fp2, "%03d\t%s\t%s\t%d\t%d\t%s\n", id, name, teacher, cap, cnt, type);
+				Course course = Course(id, name, teacher, cap, cnt, Course::getTypebyName(type));
+				course.update();
 			}
 			fclose(fp2);
-			QMessageBox::information(NULL, "Confirm", QString::fromLocal8Bit("录入成功！"));
+			QMessageBox::information(this, "Confirm", QString::fromLocal8Bit("录入成功！"));
 			ui.btnInputCourse->setEnabled(false);
 		}
 		fclose(fp1);

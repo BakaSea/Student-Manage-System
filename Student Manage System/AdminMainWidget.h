@@ -3,7 +3,6 @@
 #include <QWidget>
 #include "ui_AdminMainWidget.h"
 #include <vector>
-#include "Course.h"
 using namespace std;
 
 class AdminMainWidget : public QWidget {

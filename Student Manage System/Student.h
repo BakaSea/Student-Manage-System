@@ -5,6 +5,6 @@ using namespace std;
 class Student {
 public:
 	string id;
-	Student() {}
-	Student(string id) : id(id) {}
+	Student();
+	Student(string id);
 };

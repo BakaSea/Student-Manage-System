@@ -3,6 +3,9 @@
 #include "AddCourseWidget.h"
 #include "ModifyCourseWidget.h"
 #include "ViewCourseWidget.h"
+#include <qdir.h>
+#include <qmessagebox.h>
+#include <qfile.h>
 
 CourseWidget::CourseWidget(QWidget *parent)
 	: QWidget(parent) {
@@ -23,7 +26,8 @@ void CourseWidget::addCourse() {
 void CourseWidget::deleteCourse() {
 	for (int i = 0, j = 0; j < vecCourse.size(); ++i, ++j) {
 		if (ui.tableCourse->item(i, 6)->checkState() == Qt::Checked) {
-			if (!vecCourse[j].cnt) {
+			if (!vecCourse[j].getCnt()) {
+				QFile::remove(QString::fromLocal8Bit(("./data/course/" + to_string(vecCourse[j].id)).c_str()));
 				vecCourse.erase(vecCourse.begin()+j);
 				j--;
 			} else {
@@ -36,9 +40,13 @@ void CourseWidget::deleteCourse() {
 }
 
 void CourseWidget::modifyCourse() {
-	ModifyCourseWidget* mcw = new ModifyCourseWidget(this, ui.tableCourse->currentRow());
-	childWidget.push_back(mcw);
-	mcw->show();
+	if (vecCourse.empty()) {
+		QMessageBox::warning(this, "Warning", QString::fromLocal8Bit("当前无课程！"));
+	} else {
+		ModifyCourseWidget* mcw = new ModifyCourseWidget(this, ui.tableCourse->currentRow());
+		childWidget.push_back(mcw);
+		mcw->show();
+	}
 }
 
 void CourseWidget::viewCourse(int row, int col) {
@@ -57,14 +65,16 @@ void CourseWidget::closeEvent(QCloseEvent* event) {
 
 void CourseWidget::syncCourse() {
 	vecCourse.clear();
-	FILE* fp = fopen("currentcourse.txt", "r");
+	FILE* fp = fopen("./data/course/currentcourse.txt", "r");
 	if (fp != NULL) {
 		int id, cap, cnt;
 		char name[70], teacher[50], type[10];
 		while (!feof(fp)) {
 			int x = fscanf(fp, "%d\t%s\t%s\t%d\t%d\t%s", &id, name, teacher, &cap, &cnt, type);
 			if (x == -1) break;
-			vecCourse.push_back(Course(id, name, teacher, cap, cnt, Course::getTypebyName(type)));
+			Course course = Course(id, name, teacher, cap, cnt, Course::getTypebyName(type));
+			course.sync();
+			vecCourse.push_back(course);
 		}
 		fclose(fp);
 	}
@@ -79,7 +89,7 @@ void CourseWidget::syncTable() {
 		ui.tableCourse->setItem(i, 1, new QTableWidgetItem(QString::fromLocal8Bit(vecCourse[i].name.c_str())));
 		ui.tableCourse->setItem(i, 2, new QTableWidgetItem(QString::fromLocal8Bit(vecCourse[i].teacher.c_str())));
 		ui.tableCourse->setItem(i, 3, new QTableWidgetItem(QString::number(vecCourse[i].cap)));
-		ui.tableCourse->setItem(i, 4, new QTableWidgetItem(QString::number(vecCourse[i].cnt)));
+		ui.tableCourse->setItem(i, 4, new QTableWidgetItem(QString::number(vecCourse[i].getCnt())));
 		ui.tableCourse->setItem(i, 5, new QTableWidgetItem(QString::fromLocal8Bit(vecCourse[i].getTypeName().c_str())));
 		QTableWidgetItem* check = new QTableWidgetItem();
 		check->setCheckState(Qt::Unchecked);
@@ -88,12 +98,19 @@ void CourseWidget::syncTable() {
 }
 
 void CourseWidget::updateCourse() {
-	FILE* fp = fopen("currentcourse.txt", "w");
+	QDir dir;
+	if (!dir.exists("./data")) {
+		dir.mkdir("./data");
+	}
+	if (!dir.exists("./data/course")) {
+		dir.mkdir("./data/course");
+	}
+	FILE* fp = fopen("./data/course/currentcourse.txt", "w");
 	if (fp == NULL) {
 		return;
 	}
 	for (int i = 0; i < vecCourse.size(); ++i) {
-		fprintf(fp, "%03d\t%s\t%s\t%d\t%d\t%s\n", vecCourse[i].id, vecCourse[i].name.c_str(), vecCourse[i].teacher.c_str(), vecCourse[i].cap, vecCourse[i].cnt, vecCourse[i].getTypeName().c_str());
+		fprintf(fp, "%03d\t%s\t%s\t%d\t%d\t%s\n", vecCourse[i].id, vecCourse[i].name.c_str(), vecCourse[i].teacher.c_str(), vecCourse[i].cap, vecCourse[i].getCnt(), vecCourse[i].getTypeName().c_str());
 	}
 	fclose(fp);
 }

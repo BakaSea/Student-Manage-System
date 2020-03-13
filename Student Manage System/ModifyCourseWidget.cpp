@@ -4,7 +4,7 @@ ModifyCourseWidget::ModifyCourseWidget(CourseWidget *father, int index, QWidget 
 	: father(father), index(index), QWidget(parent) {
 	ui.setupUi(this);
 	ui.labelName->setText(QString::fromLocal8Bit(father->vecCourse[index].name.c_str()));
-	ui.labelCnt->setText(QString::number(father->vecCourse[index].cnt));
+	ui.labelCnt->setText(QString::number(father->vecCourse[index].getCnt()));
 	ui.lineTeacher->setText(QString::fromLocal8Bit(father->vecCourse[index].teacher.c_str()));
 	ui.sbCap->setValue(father->vecCourse[index].cap);
 }
@@ -21,7 +21,7 @@ void ModifyCourseWidget::confirm() {
 	} else if (!ui.sbCap->value()) {
 		ui.labelWarning->setStyleSheet("color:red");
 		ui.labelWarning->setText(QString::fromLocal8Bit("上限人数不能为0！"));
-	} else if (ui.sbCap->value() < father->vecCourse[index].cnt) {
+	} else if (ui.sbCap->value() < father->vecCourse[index].getCnt()) {
 		ui.labelWarning->setStyleSheet("color:red");
 		ui.labelWarning->setText(QString::fromLocal8Bit("上限人数小于已选人数！"));
 	} else {

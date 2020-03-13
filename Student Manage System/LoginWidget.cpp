@@ -3,6 +3,7 @@
 #include <string.h>
 #include "AdminMainWidget.h"
 #include "StudentMainWidget.h"
+#include <qdir.h>
 
 LoginWidget::LoginWidget(QWidget *parent)
 	: QWidget(parent) {
@@ -50,7 +51,14 @@ void LoginWidget::registerStudent() {
 		map<string, string>::iterator iter = mapStu.find(id);
 		if (iter == mapStu.end()) {
 			mapStu[id] = ui.linePassword->text().toStdString();
-			FILE* fp = fopen(id.c_str(), "w");
+			QDir dir;
+			if (!dir.exists("./data")) {
+				dir.mkdir("./data");
+			}
+			if (!dir.exists("./data/student")) {
+				dir.mkdir("./data/student");
+			}
+			FILE* fp = fopen(("./data/student/"+id+".txt").c_str(), "w");
 			if (fp == NULL) {
 				ui.labelWarning->setStyleSheet("color:red");
 				ui.labelWarning->setText(QString::fromLocal8Bit("注册失败！"));
@@ -60,6 +68,7 @@ void LoginWidget::registerStudent() {
 					ui.labelWarning->setStyleSheet("color:green");
 					ui.labelWarning->setText(QString::fromLocal8Bit("注册成功！"));
 				} else {
+					mapStu.erase(id);
 					ui.labelWarning->setStyleSheet("color:red");
 					ui.labelWarning->setText(QString::fromLocal8Bit("注册失败！"));
 				}
@@ -77,7 +86,7 @@ void LoginWidget::registerStudent() {
 
 void LoginWidget::syncStudentList() {
 	mapStu.clear();
-	FILE* fp = fopen("student.txt", "r");
+	FILE* fp = fopen("./data/student/student.txt", "r");
 	if (fp != NULL) {
 		char str[50];
 		string id, password;
@@ -105,7 +114,14 @@ void LoginWidget::syncStudentList() {
 }
 
 int LoginWidget::updateStudentList() {
-	FILE* fp = fopen("student.txt", "w");
+	QDir dir;
+	if (!dir.exists("./data")) {
+		dir.mkdir("./data");
+	}
+	if (!dir.exists("./data/student")) {
+		dir.mkdir("./data/student");
+	}
+	FILE* fp = fopen("./data/student/student.txt", "w");
 	if (fp == NULL) {
 		return 0;
 	}
