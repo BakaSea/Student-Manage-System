@@ -5,8 +5,8 @@
 using namespace std;
 
 class Course {
-	enum CourseType {SPEC, NONSPEC};
 public:
+	enum CourseType {SPEC, NONSPEC};
 	//课程id，上限人数
 	int id, cap;
 	//课程名称，授课教师
@@ -32,6 +32,8 @@ public:
 	void setCnt(int x);
 	//已选人数+1
 	void addCnt();
+	//判断是否已满
+	bool full();
 private:
 	//已选人数
 	int cnt;

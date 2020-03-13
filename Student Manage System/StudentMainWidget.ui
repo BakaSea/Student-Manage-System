@@ -1,23 +1,143 @@
-<UI version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>StudentMainWidget</class>
- <widget class="QWidget" name="StudentMainWidget" >
-  <property name="objectName" >
-   <string notr="true">StudentMainWidget</string>
-  </property>
-  <property name="geometry" >
+ <widget class="QWidget" name="StudentMainWidget">
+  <property name="geometry">
    <rect>
-	<x>0</x>
-	<y>0</y>
-	<width>400</width>
-	<height>300</height>
+    <x>0</x>
+    <y>0</y>
+    <width>148</width>
+    <height>175</height>
    </rect>
   </property>
-  <property name="windowTitle" >
-   <string>StudentMainWidget</string>
+  <property name="windowTitle">
+   <string>学生</string>
   </property>
+  <widget class="QPushButton" name="btnLogout">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>130</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>注销登录</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnViewCourse">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>查看课程信息</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnViewOwnCourse">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>50</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>查看个人课表</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnModifyPW">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>90</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>修改密码</string>
+   </property>
+  </widget>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
-</UI>
+ <connections>
+  <connection>
+   <sender>btnLogout</sender>
+   <signal>clicked()</signal>
+   <receiver>StudentMainWidget</receiver>
+   <slot>logout()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>103</x>
+     <y>138</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>126</x>
+     <y>167</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnViewCourse</sender>
+   <signal>clicked()</signal>
+   <receiver>StudentMainWidget</receiver>
+   <slot>viewCourse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>90</x>
+     <y>28</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>143</x>
+     <y>32</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnViewOwnCourse</sender>
+   <signal>clicked()</signal>
+   <receiver>StudentMainWidget</receiver>
+   <slot>viewOwnCourse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>74</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>139</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnModifyPW</sender>
+   <signal>clicked()</signal>
+   <receiver>StudentMainWidget</receiver>
+   <slot>modifyPassword()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>64</x>
+     <y>103</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>135</x>
+     <y>123</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>logout()</slot>
+  <slot>viewCourse()</slot>
+  <slot>viewOwnCourse()</slot>
+  <slot>modifyPassword()</slot>
+ </slots>
+</ui>

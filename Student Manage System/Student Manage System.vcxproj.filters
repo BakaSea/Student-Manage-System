@@ -29,6 +29,9 @@
     <ClCompile Include="ViewCourseWidget.cpp">
       <Filter>Source Files\Widget</Filter>
     </ClCompile>
+    <ClCompile Include="CourseManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -135,6 +138,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="x64\Debug\uic\ui_ViewCourseWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CourseManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

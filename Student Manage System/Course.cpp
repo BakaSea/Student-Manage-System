@@ -89,3 +89,7 @@ void Course::setCnt(int x) {
 void Course::addCnt() {
 	cnt++;
 }
+
+bool Course::full() {
+	return cnt >= cap;
+}

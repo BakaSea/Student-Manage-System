@@ -24,6 +24,9 @@ void LoginWidget::loginStudent() {
 		if (pw.toStdString() == iter->second) {
 			ui.labelWarning->setStyleSheet("color:green");
 			ui.labelWarning->setText(QString::fromLocal8Bit("登录成功！"));
+			this->hide();
+			StudentMainWidget* smw = new StudentMainWidget(this, Student(iter->first));
+			smw->show();
 		} else {
 			ui.labelWarning->setStyleSheet("color:red");
 			ui.labelWarning->setText(QString::fromLocal8Bit("密码错误！"));
@@ -58,29 +61,19 @@ void LoginWidget::registerStudent() {
 			QString pw;
 			pw.append(QCryptographicHash::hash(ui.linePassword->text().toUtf8(), QCryptographicHash::Md5).toHex());
 			mapStu[id] = pw.toStdString();
-			QDir dir;
-			if (!dir.exists("./data")) {
-				dir.mkdir("./data");
-			}
-			if (!dir.exists("./data/student")) {
-				dir.mkdir("./data/student");
-			}
-			FILE* fp = fopen(("./data/student/"+id+".txt").c_str(), "w");
-			if (fp == NULL) {
+			Student student(id);
+			student.update();
+			if (updateStudentList()) {
+				ui.labelWarning->setStyleSheet("color:green");
+				ui.labelWarning->setText(QString::fromLocal8Bit("注册成功！"));
+				this->hide();
+				StudentMainWidget* smw = new StudentMainWidget(this, Student(id));
+				smw->show();
+			} else {
+				mapStu.erase(id);
 				ui.labelWarning->setStyleSheet("color:red");
 				ui.labelWarning->setText(QString::fromLocal8Bit("注册失败！"));
-			} else {
-				fclose(fp);
-				if (updateStudentList()) {
-					ui.labelWarning->setStyleSheet("color:green");
-					ui.labelWarning->setText(QString::fromLocal8Bit("注册成功！"));
-				} else {
-					mapStu.erase(id);
-					ui.labelWarning->setStyleSheet("color:red");
-					ui.labelWarning->setText(QString::fromLocal8Bit("注册失败！"));
-				}
 			}
-			
 		} else {
 			ui.labelWarning->setStyleSheet("color:red");
 			ui.labelWarning->setText(QString::fromLocal8Bit("用户已存在！"));

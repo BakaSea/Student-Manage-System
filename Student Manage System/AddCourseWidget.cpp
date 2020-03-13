@@ -14,7 +14,7 @@ AddCourseWidget::~AddCourseWidget() {
 
 void AddCourseWidget::confirm() {
 	Course newCourse;
-	newCourse.id = father->vecCourse.empty() ? 1 : father->vecCourse[father->vecCourse.size()-1].id+1;
+	newCourse.id = father->cm->empty() ? 1 : father->cm->getCourse(father->cm->size()-1).id+1;
 	newCourse.name = ui.lineName->text().toLocal8Bit().toStdString();
 	newCourse.teacher = ui.lineTeacher->text().toLocal8Bit().toStdString();
 	newCourse.cap = ui.sbCap->value();
@@ -31,8 +31,7 @@ void AddCourseWidget::confirm() {
 		ui.labelWarning->setText(QString::fromLocal8Bit("上限人数不能为0！"));
 	} else {
 		newCourse.update();
-		father->vecCourse.push_back(newCourse);
-		father->updateCourse();
+		father->cm->addCourse(newCourse);
 		father->syncTable();
 		this->close();
 	}

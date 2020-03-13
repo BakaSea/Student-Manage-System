@@ -56,7 +56,7 @@ void AdminMainWidget::inputCourse() {
 }
 
 void AdminMainWidget::viewCourse() {
-	CourseWidget* cw = new CourseWidget();
+	CourseWidget* cw = new CourseWidget(CourseWidget::ADMIN);
 	childWidget.push_back(cw);
 	cw->show();
 }
