@@ -4,6 +4,7 @@
 #include "AdminMainWidget.h"
 #include "StudentMainWidget.h"
 #include <qdir.h>
+#include <qcryptographichash.h>
 
 LoginWidget::LoginWidget(QWidget *parent)
 	: QWidget(parent) {
@@ -17,7 +18,10 @@ void LoginWidget::loginStudent() {
 		ui.labelWarning->setStyleSheet("color:red");
 		ui.labelWarning->setText(QString::fromLocal8Bit("用户名错误！"));
 	} else {
-		if (ui.linePassword->text().toStdString() == iter->second) {
+		//获取MD5
+		QString pw;
+		pw.append(QCryptographicHash::hash(ui.linePassword->text().toUtf8(), QCryptographicHash::Md5).toHex());
+		if (pw.toStdString() == iter->second) {
 			ui.labelWarning->setStyleSheet("color:green");
 			ui.labelWarning->setText(QString::fromLocal8Bit("登录成功！"));
 		} else {
@@ -50,7 +54,10 @@ void LoginWidget::registerStudent() {
 	if (checkUsername(id)) {
 		map<string, string>::iterator iter = mapStu.find(id);
 		if (iter == mapStu.end()) {
-			mapStu[id] = ui.linePassword->text().toStdString();
+			//获取MD5
+			QString pw;
+			pw.append(QCryptographicHash::hash(ui.linePassword->text().toUtf8(), QCryptographicHash::Md5).toHex());
+			mapStu[id] = pw.toStdString();
 			QDir dir;
 			if (!dir.exists("./data")) {
 				dir.mkdir("./data");

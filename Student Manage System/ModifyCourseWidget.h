@@ -12,6 +12,7 @@ public:
 	~ModifyCourseWidget();
 
 protected slots:
+	//确定修改课程
 	void confirm();
 
 private:

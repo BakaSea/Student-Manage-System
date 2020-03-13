@@ -12,6 +12,7 @@ public:
 	~AddCourseWidget();
 
 protected slots:
+	//确定增加课程
 	void confirm();
 
 private:

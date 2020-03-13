@@ -13,8 +13,11 @@ public:
 	~AdminMainWidget();
 
 protected slots:
+	//注销登录
 	void logout();
+	//录入课程
 	void inputCourse();
+	//查看课程信息
 	void viewCourse();
 
 protected:

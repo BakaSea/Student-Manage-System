@@ -35,7 +35,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>注销登陆</string>
+    <string>注销登录</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnInputCourse">

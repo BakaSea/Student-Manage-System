@@ -29,6 +29,7 @@ Course::CourseType Course::getTypebyIndex(int index) {
 }
 
 void Course::update() {
+	//用json存储信息
 	QDir dir;
 	if (!dir.exists("./data")) {
 		dir.mkdir("./data");
@@ -57,6 +58,7 @@ void Course::update() {
 }
 
 void Course::sync() {
+	//从json中读入
 	vecStu.clear();
 	vecAssist.clear();
 	QFile fp(QString::fromStdString("./data/course/" + to_string(id) + ".json"));
