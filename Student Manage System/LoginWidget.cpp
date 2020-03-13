@@ -85,7 +85,8 @@ void LoginWidget::syncStudentList() {
 			int flag = 0;
 			id.clear();
 			password.clear();
-			fscanf(fp, "%s", str);
+			int x = fscanf(fp, "%s", str);
+			if (x == -1) break;
 			for (int i = 0; i < strlen(str); ++i) {
 				if (!flag && str[i] == ',') {
 					flag = 1;

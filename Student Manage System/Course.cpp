@@ -1,19 +1,13 @@
 ﻿#include "Course.h"
 
 string Course::getTypeName() {
-	if (type == SPEC) {
-		return "专业课";
-	}
-	if (type == NONSPEC) {
-		return "非专业课";
-	}
-	return string();
+	return type == SPEC ? "专业课" : "非专业课";
 }
 
-Course::CourseType Course::getType(string type) {
-	if (type == "专业课") {
-		return SPEC;
-	} else {
-		return NONSPEC;
-	}
+Course::CourseType Course::getTypebyName(string type) {
+	return type == "专业课" ? SPEC : NONSPEC;
+}
+
+Course::CourseType Course::getTypebyIndex(int index) {
+	return index ? NONSPEC : SPEC;
 }

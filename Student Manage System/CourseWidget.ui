@@ -10,8 +10,20 @@
     <height>400</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>850</width>
+    <height>400</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>850</width>
+    <height>400</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>CourseWidget</string>
+   <string>课程信息</string>
   </property>
   <widget class="QTableWidget" name="tableCourse">
    <property name="geometry">
@@ -54,7 +66,7 @@
    </column>
    <column>
     <property name="text">
-     <string>容纳人数</string>
+     <string>上限人数</string>
     </property>
    </column>
    <column>
@@ -164,11 +176,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>tableCourse</sender>
+   <signal>cellDoubleClicked(int,int)</signal>
+   <receiver>CourseWidget</receiver>
+   <slot>viewCourse(int,int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>611</x>
+     <y>295</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>768</x>
+     <y>308</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>addCourse()</slot>
   <slot>deleteCourse()</slot>
   <slot>modifyCourse()</slot>
-  <slot>selectAll(int,int)</slot>
+  <slot>viewCourse(int,int)</slot>
  </slots>
 </ui>

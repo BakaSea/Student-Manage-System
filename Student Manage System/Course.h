@@ -11,5 +11,6 @@ public:
 	Course() {}
 	Course(int id, string name, string teacher, int cap, int cnt, CourseType type) : id(id), name(name), teacher(teacher), cap(cap), cnt(cnt), type(type) {}
 	string getTypeName();
-	static CourseType getType(string type);
+	static CourseType getTypebyName(string type);
+	static CourseType getTypebyIndex(int index);
 };

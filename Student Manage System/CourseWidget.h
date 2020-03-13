@@ -12,11 +12,15 @@ class CourseWidget : public QWidget {
 public:
 	CourseWidget(QWidget *parent = Q_NULLPTR);
 	~CourseWidget();
+	vector<Course> vecCourse;
+	void updateCourse();
+	void syncTable();
 
 protected slots:
 	void addCourse();
 	void deleteCourse();
 	void modifyCourse();
+	void viewCourse(int row, int col);
 
 protected:
 	void closeEvent(QCloseEvent* event);
@@ -24,8 +28,5 @@ protected:
 private:
 	Ui::CourseWidget ui;
 	vector<QWidget*> childWidget;
-	vector<Course> vecCourse;
 	void syncCourse();
-	void syncTable();
-	void updateCourse();
 };

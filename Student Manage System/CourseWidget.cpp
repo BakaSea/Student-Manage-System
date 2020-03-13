@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "AddCourseWidget.h"
 #include "ModifyCourseWidget.h"
+#include "ViewCourseWidget.h"
 
 CourseWidget::CourseWidget(QWidget *parent)
 	: QWidget(parent) {
@@ -14,10 +15,9 @@ CourseWidget::~CourseWidget() {
 }
 
 void CourseWidget::addCourse() {
-	AddCourseWidget* acw = new AddCourseWidget();
+	AddCourseWidget* acw = new AddCourseWidget(this);
 	childWidget.push_back(acw);
 	acw->show();
-	syncCourse();
 }
 
 void CourseWidget::deleteCourse() {
@@ -36,10 +36,15 @@ void CourseWidget::deleteCourse() {
 }
 
 void CourseWidget::modifyCourse() {
-	ModifyCourseWidget* mcw = new ModifyCourseWidget();
+	ModifyCourseWidget* mcw = new ModifyCourseWidget(this, ui.tableCourse->currentRow());
 	childWidget.push_back(mcw);
 	mcw->show();
-	syncCourse();
+}
+
+void CourseWidget::viewCourse(int row, int col) {
+	ViewCourseWidget* vcw = new ViewCourseWidget(this, row);
+	childWidget.push_back(vcw);
+	vcw->show();
 }
 
 void CourseWidget::closeEvent(QCloseEvent* event) {
@@ -57,8 +62,9 @@ void CourseWidget::syncCourse() {
 		int id, cap, cnt;
 		char name[70], teacher[50], type[10];
 		while (!feof(fp)) {
-			fscanf(fp, "%d\t%s\t%s\t%d\t%d\t%s\n", &id, name, teacher, &cap, &cnt, type);
-			vecCourse.push_back(Course(id, name, teacher, cap, cnt, Course::getType(type)));
+			int x = fscanf(fp, "%d\t%s\t%s\t%d\t%d\t%s", &id, name, teacher, &cap, &cnt, type);
+			if (x == -1) break;
+			vecCourse.push_back(Course(id, name, teacher, cap, cnt, Course::getTypebyName(type)));
 		}
 		fclose(fp);
 	}
