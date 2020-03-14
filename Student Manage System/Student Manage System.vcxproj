@@ -89,6 +89,7 @@
     <ClCompile Include="LoginWidget.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModifyCourseWidget.cpp" />
+    <ClCompile Include="OwnCourseWidget.cpp" />
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="StudentMainWidget.cpp" />
     <ClCompile Include="ViewCourseWidget.cpp" />
@@ -102,6 +103,7 @@
     <QtUic Include="CourseWidget.ui" />
     <QtUic Include="LoginWidget.ui" />
     <QtUic Include="ModifyCourseWidget.ui" />
+    <QtUic Include="OwnCourseWidget.ui" />
     <QtUic Include="StudentMainWidget.ui" />
     <QtUic Include="ViewCourseWidget.ui" />
   </ItemGroup>
@@ -110,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CourseManager.h" />
+    <QtMoc Include="OwnCourseWidget.h" />
     <ClInclude Include="x64\Debug\uic\ui_ViewCourseWidget.h" />
     <QtMoc Include="AddCourseWidget.h" />
     <ClInclude Include="Course.h" />

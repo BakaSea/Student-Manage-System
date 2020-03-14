@@ -32,6 +32,9 @@
     <ClCompile Include="CourseManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OwnCourseWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -83,6 +86,9 @@
     <QtMoc Include="ViewCourseWidget.h">
       <Filter>Header Files\Widget</Filter>
     </QtMoc>
+    <QtMoc Include="OwnCourseWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="LoginWidget.ui">
@@ -104,6 +110,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="ViewCourseWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="OwnCourseWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
