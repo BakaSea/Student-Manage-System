@@ -1,23 +1,149 @@
-<UI version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>OwnCourseWidget</class>
- <widget class="QWidget" name="OwnCourseWidget" >
-  <property name="objectName" >
-   <string notr="true">OwnCourseWidget</string>
-  </property>
-  <property name="geometry" >
+ <widget class="QWidget" name="OwnCourseWidget">
+  <property name="geometry">
    <rect>
-	<x>0</x>
-	<y>0</y>
-	<width>400</width>
-	<height>300</height>
+    <x>0</x>
+    <y>0</y>
+    <width>730</width>
+    <height>340</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>OwnCourseWidget</string>
   </property>
+  <widget class="QTableWidget" name="tableCourse">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>621</width>
+     <height>321</height>
+    </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <column>
+    <property name="text">
+     <string>课程ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>课程名称</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>授课教师</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>课程类型</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>个人助教</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>选择</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="btnDropCourse">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>10</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>退课</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnRefresh">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>300</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>刷新</string>
+   </property>
+  </widget>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
-</UI>
+ <connections>
+  <connection>
+   <sender>btnDropCourse</sender>
+   <signal>clicked()</signal>
+   <receiver>OwnCourseWidget</receiver>
+   <slot>dropCourse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>670</x>
+     <y>25</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>681</x>
+     <y>78</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnRefresh</sender>
+   <signal>clicked()</signal>
+   <receiver>OwnCourseWidget</receiver>
+   <slot>refresh()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>691</x>
+     <y>306</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>703</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tableCourse</sender>
+   <signal>cellDoubleClicked(int,int)</signal>
+   <receiver>OwnCourseWidget</receiver>
+   <slot>courseAssistant(int,int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>581</x>
+     <y>170</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>668</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>dropCourse()</slot>
+  <slot>courseAssistant(int,int)</slot>
+  <slot>refresh()</slot>
+ </slots>
+</ui>

@@ -113,6 +113,7 @@
   <ItemGroup>
     <ClInclude Include="CourseManager.h" />
     <QtMoc Include="OwnCourseWidget.h" />
+    <ClInclude Include="x64\Debug\uic\ui_OwnCourseWidget.h" />
     <ClInclude Include="x64\Debug\uic\ui_ViewCourseWidget.h" />
     <QtMoc Include="AddCourseWidget.h" />
     <ClInclude Include="Course.h" />

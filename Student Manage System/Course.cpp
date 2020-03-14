@@ -9,11 +9,13 @@
 
 Course::Course() {
 	vecStu.clear();
+	mapStu.clear();
 }
 
 Course::Course(int id, string name, string teacher, int cap, int cnt, CourseType type) : 
-	id(id), name(name), teacher(teacher), cap(cap), cnt(cnt), type(type) {
+	id(id), name(name), teacher(teacher), cap(cap), type(type) {
 	vecStu.clear();
+	mapStu.clear();
 }
 
 string Course::getTypeName() {
@@ -82,14 +84,42 @@ int Course::getCnt() {
 	return vecStu.size();
 }
 
-void Course::setCnt(int x) {
-	cnt = x;
-}
-
-void Course::addCnt() {
-	cnt++;
-}
-
 bool Course::full() {
-	return cnt >= cap;
+	return vecStu.size() >= cap;
+}
+
+void Course::addStudent(Student student) {
+	vecStu.push_back(student);
+	mapStu[student] = vecStu.size() - 1;
+	update();
+}
+
+void Course::deleteStudent(Student student) {
+	vecStu.erase(vecStu.begin() + mapStu[student]);
+	mapStu.erase(student);
+	update();
+}
+
+void Course::addAssistant(Student student) {
+	vecAssist.push_back(student);
+	mapAssist[student] = vecAssist.size() - 1;
+	update();
+}
+
+void Course::deleteAssistant(Student student) {
+	vecAssist.erase(vecAssist.begin() + mapAssist[student]);
+	mapAssist.erase(student);
+	update();
+}
+
+Student Course::getStudent(int index) {
+	return vecStu[index];
+}
+
+int Course::assistSize() {
+	return vecAssist.size();
+}
+
+Student Course::getAssistant(int index) {
+	return vecAssist[index];
 }

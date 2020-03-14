@@ -33,7 +33,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OwnCourseWidget.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Widget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -87,7 +87,7 @@
       <Filter>Header Files\Widget</Filter>
     </QtMoc>
     <QtMoc Include="OwnCourseWidget.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Widget</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +150,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CourseManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="x64\Debug\uic\ui_OwnCourseWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

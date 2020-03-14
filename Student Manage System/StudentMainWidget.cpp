@@ -1,14 +1,17 @@
 ﻿#include "StudentMainWidget.h"
 #include "CourseWidget.h"
+#include "OwnCourseWidget.h"
 
 StudentMainWidget::StudentMainWidget(LoginWidget *father, Student student, QWidget *parent)
-	: father(father), student(student), QWidget(parent) {
+	: father(father), QWidget(parent) {
 	ui.setupUi(this);
+	this->student = new Student(student.id);
 }
 
 StudentMainWidget::~StudentMainWidget() {
 	father = NULL;
 	delete father;
+	delete student;
 }
 
 void StudentMainWidget::closeEvent(QCloseEvent* event) {
@@ -31,7 +34,9 @@ void StudentMainWidget::viewCourse() {
 }
 
 void StudentMainWidget::viewOwnCourse() {
-
+	OwnCourseWidget* ocw = new OwnCourseWidget(student);
+	childWidget.push_back(ocw);
+	ocw->show();
 }
 
 void StudentMainWidget::modifyPassword() {

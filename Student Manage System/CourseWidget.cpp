@@ -18,7 +18,7 @@ CourseWidget::CourseWidget(UserType userType, QWidget *parent)
 	ui.btnSelectCourse->setVisible(false);
 }
 
-CourseWidget::CourseWidget(UserType userType, Student student, QWidget* parent)
+CourseWidget::CourseWidget(UserType userType, Student *student, QWidget* parent)
 	: userType(userType), student(student), QWidget(parent) {
 	ui.setupUi(this);
 	cm = new CourseManager();
@@ -30,7 +30,10 @@ CourseWidget::CourseWidget(UserType userType, Student student, QWidget* parent)
 }
 
 CourseWidget::~CourseWidget() {
-
+	childWidget.clear();
+	delete cm;
+	student = NULL;
+	delete student;
 }
 
 void CourseWidget::addCourse() {
@@ -74,11 +77,11 @@ void CourseWidget::viewCourse(int row, int col) {
 
 void CourseWidget::selectCourse() {
 	for (int i = 0; i < cm->size(); ++i) {
-		if (!student.contain(cm->getCourse(i).id)) {
+		if (!student->contain(cm->getCourse(i).id)) {
 			if (ui.tableCourse->item(i, 6)->checkState() == Qt::Checked) {
 				if (!cm->getCourse(i).full()) {
-					student.addCourse(cm->getCourse(i).id);
-					cm->addStudent(i, student);
+					student->addCourse(cm->getCourse(i).id);
+					cm->addStudent(i, *student);
 				} else {
 					//TODO
 				}
@@ -121,7 +124,7 @@ void CourseWidget::syncTable() {
 			ui.tableCourse->setItem(i, 6, check);
 		}
 		if (userType == STUDENT) {
-			if (!student.contain(cm->getCourse(i).id)) {
+			if (!student->contain(cm->getCourse(i).id)) {
 				QTableWidgetItem* check = new QTableWidgetItem();
 				check->setCheckState(Qt::Unchecked);
 				ui.tableCourse->setItem(i, 6, check);

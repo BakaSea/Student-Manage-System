@@ -10,6 +10,8 @@ public:
 	~CourseManager();
 	//获取第index个课程
 	Course getCourse(int index);
+	//获取课程ID为ID的课程
+	Course getCourseByID(int id);
 	//增加课程
 	void addCourse(Course course);
 	//删除课程
@@ -22,8 +24,12 @@ public:
 	bool empty();
 	//添加学生
 	void addStudent(int index, Student student);
+	//删除学生
+	void deleteStudent(int id, Student student);
 	//添加助教
 	void addAssistant(int index, Student student);
+	//删除助教
+	void deleteAssistant(int id, Student student);
 	//从文件中同步课程信息
 	void sync();
 	//将课程信息写入文件

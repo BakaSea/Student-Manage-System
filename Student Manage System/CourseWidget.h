@@ -16,7 +16,7 @@ public:
 	//管理员登录
 	CourseWidget(UserType userType, QWidget *parent = Q_NULLPTR);
 	//学生登录
-	CourseWidget(UserType userType, Student student, QWidget* parent = Q_NULLPTR);
+	CourseWidget(UserType userType, Student *student, QWidget* parent = Q_NULLPTR);
 	~CourseWidget();
 	//管理所有课程信息
 	CourseManager* cm;
@@ -48,5 +48,5 @@ private:
 	//用户类型
 	UserType userType;
 	//当前操作的学生
-	Student student;
+	Student *student;
 };

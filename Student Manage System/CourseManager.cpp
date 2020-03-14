@@ -15,6 +15,10 @@ Course CourseManager::getCourse(int index) {
 	return vecCourse[index];
 }
 
+Course CourseManager::getCourseByID(int id) {
+	return vecCourse[mapCourse[id]];
+}
+
 void CourseManager::addCourse(Course course) {
 	vecCourse.push_back(course);
 	mapCourse[course.id] = vecCourse.size() - 1;
@@ -42,15 +46,21 @@ bool CourseManager::empty() {
 }
 
 void CourseManager::addStudent(int index, Student student) {
-	vecCourse[index].addCnt();
-	vecCourse[index].vecStu.push_back(student);
-	vecCourse[index].update();
+	vecCourse[index].addStudent(student);
+	update();
+}
+
+void CourseManager::deleteStudent(int id, Student student) {
+	vecCourse[mapCourse[id]].deleteStudent(student);
 	update();
 }
 
 void CourseManager::addAssistant(int index, Student student) {
-	vecCourse[index].vecAssist.push_back(student);
-	vecCourse[index].update();
+	vecCourse[index].addAssistant(student);
+}
+
+void CourseManager::deleteAssistant(int id, Student student) {
+	vecCourse[mapCourse[id]].deleteAssistant(student);
 }
 
 void CourseManager::update() {

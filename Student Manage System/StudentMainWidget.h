@@ -32,5 +32,5 @@ private:
 	vector<QWidget*> childWidget;
 	LoginWidget* father;
 	//当前操作的学生
-	Student student;
+	Student* student;
 };

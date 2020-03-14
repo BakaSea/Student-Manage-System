@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "Student.h"
+#include <map>
 using namespace std;
 
 class Course {
@@ -22,19 +23,29 @@ public:
 	void update();
 	//从文件中同步课程
 	void sync();
-	//存储该课的学生
-	vector<Student> vecStu;
-	//存储该课的助教
-	vector<Student> vecAssist;
 	//获取已选人数
 	int getCnt();
-	//设置已选人数
-	void setCnt(int x);
-	//已选人数+1
-	void addCnt();
 	//判断是否已满
 	bool full();
+	//增加学生
+	void addStudent(Student student);
+	//删除学生
+	void deleteStudent(Student student);
+	//增加助教
+	void addAssistant(Student student);
+	//删除助教
+	void deleteAssistant(Student student);
+	//获取第index个学生
+	Student getStudent(int index);
+	//获取助教人数
+	int assistSize();
+	//获取第index个助教
+	Student getAssistant(int index);
 private:
-	//已选人数
-	int cnt;
+	//存储该课的学生
+	vector<Student> vecStu;
+	map<Student, int> mapStu;
+	//存储该课的助教
+	vector<Student> vecAssist;
+	map<Student, int> mapAssist;
 };

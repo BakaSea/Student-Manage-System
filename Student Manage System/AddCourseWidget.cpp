@@ -18,7 +18,6 @@ void AddCourseWidget::confirm() {
 	newCourse.name = ui.lineName->text().toLocal8Bit().toStdString();
 	newCourse.teacher = ui.lineTeacher->text().toLocal8Bit().toStdString();
 	newCourse.cap = ui.sbCap->value();
-	newCourse.setCnt(0);
 	newCourse.type = Course::getTypebyIndex(ui.cbType->currentIndex());
 	if (!newCourse.name.size()) {
 		ui.labelWarning->setStyleSheet("color:red");

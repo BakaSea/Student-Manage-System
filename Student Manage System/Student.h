@@ -10,7 +10,14 @@ public:
 	string id;
 	Student();
 	Student(string id);
+	bool operator == (const Student& A) const;
+	bool operator < (const Student& A) const;
+	//获取所选课程的多少
+	int size();
+	//判断是否包含该课程ID的课程
 	bool contain(int id);
+	//将map转换成vector
+	vector< pair<int, Student> > getVector();
 	//增加课程
 	void addCourse(int id);
 	//删除课程

@@ -12,8 +12,29 @@ Student::Student(string id) : id(id) {
 	sync();
 }
 
+bool Student::operator==(const Student& A) const {
+	return id == A.id;
+}
+
+bool Student::operator<(const Student& A) const {
+	return id < A.id;
+}
+
+int Student::size() {
+	return mapCA.size();
+}
+
 bool Student::contain(int id) {
 	return mapCA.find(id) != mapCA.end();
+}
+
+vector< pair<int, Student> > Student::getVector() {
+	vector< pair<int, Student> > vec;
+	vec.clear();
+	for (map<int, Student>::iterator iter = mapCA.begin(); iter != mapCA.end(); ++iter) {
+		vec.push_back(*iter);
+	}
+	return vec;
 }
 
 void Student::addCourse(int id) {
