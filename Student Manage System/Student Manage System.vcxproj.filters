@@ -2,12 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Student.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Course.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AdminMainWidget.cpp">
       <Filter>Source Files\Widget</Filter>
     </ClCompile>
@@ -29,17 +23,26 @@
     <ClCompile Include="ViewCourseWidget.cpp">
       <Filter>Source Files\Widget</Filter>
     </ClCompile>
-    <ClCompile Include="CourseManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OwnCourseWidget.cpp">
       <Filter>Source Files\Widget</Filter>
     </ClCompile>
-    <ClCompile Include="RegistryManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="AssistantWidget.cpp">
+      <Filter>Source Files\Widget</Filter>
     </ClCompile>
     <ClCompile Include="ModifyPasswordWidget.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="CourseManager.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="RegistryManager.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Course.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Student.cpp">
+      <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +72,21 @@
     <Filter Include="Source Files\Widget">
       <UniqueIdentifier>{3cf4153a-fd7e-47a2-bb3b-a43a440bc94e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Manager">
+      <UniqueIdentifier>{27e5d910-313b-46dc-84ef-a21df52adbf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager">
+      <UniqueIdentifier>{e77604f7-9acc-458f-8891-5092ba4877db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{5edeb66b-7957-4096-af24-81bcab076744}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{6a584ff7-778c-4837-afca-82e0b4f5b270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{33e97d4e-6e23-4c29-a4f6-2397ed1d6286}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="AdminMainWidget.h">
@@ -95,8 +113,11 @@
     <QtMoc Include="OwnCourseWidget.h">
       <Filter>Header Files\Widget</Filter>
     </QtMoc>
+    <QtMoc Include="AssistantWidget.h">
+      <Filter>Header Files\Widget</Filter>
+    </QtMoc>
     <QtMoc Include="ModifyPasswordWidget.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Widget</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +148,9 @@
     <QtUic Include="ModifyPasswordWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="AssistantWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="LoginWidget.qrc">
@@ -134,44 +158,47 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="x64\Debug\uic\ui_LoginWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Student.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="x64\Debug\uic\ui_AdminMainWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="x64\Debug\uic\ui_StudentMainWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Course.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="x64\Debug\uic\ui_CourseWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="x64\Debug\uic\ui_AddCourseWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="x64\Debug\uic\ui_ModifyCourseWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="x64\Debug\uic\ui_ViewCourseWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CourseManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="x64\Debug\uic\ui_OwnCourseWidget.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Manager</Filter>
     </ClInclude>
     <ClInclude Include="RegistryManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Course.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Student.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="x64\Debug\uic\ui_AddCourseWidget.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="x64\Debug\uic\ui_AdminMainWidget.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="x64\Debug\uic\ui_AssistantWidget.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="x64\Debug\uic\ui_CourseWidget.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="x64\Debug\uic\ui_LoginWidget.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="x64\Debug\uic\ui_ModifyCourseWidget.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="x64\Debug\uic\ui_ModifyPasswordWidget.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="x64\Debug\uic\ui_OwnCourseWidget.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="x64\Debug\uic\ui_StudentMainWidget.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="x64\Debug\uic\ui_ViewCourseWidget.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

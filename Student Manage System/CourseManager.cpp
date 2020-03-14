@@ -55,12 +55,14 @@ void CourseManager::deleteStudent(int id, Student student) {
 	update();
 }
 
-void CourseManager::addAssistant(int index, Student student) {
-	vecCourse[index].addAssistant(student);
+void CourseManager::addAssistant(int id, Student student) {
+	vecCourse[mapCourse[id]].addAssistant(student);
+	updateAssistant();
 }
 
 void CourseManager::deleteAssistant(int id, Student student) {
 	vecCourse[mapCourse[id]].deleteAssistant(student);
+	updateAssistant();
 }
 
 void CourseManager::update() {
@@ -77,6 +79,33 @@ void CourseManager::update() {
 	}
 	for (int i = 0; i < vecCourse.size(); ++i) {
 		fprintf(fp, "%03d\t%s\t%s\t%d\t%d\t%s\n", vecCourse[i].id, vecCourse[i].name.c_str(), vecCourse[i].teacher.c_str(), vecCourse[i].cap, vecCourse[i].getCnt(), vecCourse[i].getTypeName().c_str());
+	}
+	fclose(fp);
+}
+
+void CourseManager::updateAssistant() {
+	QDir dir;
+	if (!dir.exists("./data")) {
+		dir.mkdir("./data");
+	}
+	if (!dir.exists("./data/course")) {
+		dir.mkdir("./data/course");
+	}
+	FILE* fp = fopen("./data/course/assistant.txt", "w");
+	if (fp == NULL) {
+		return;
+	}
+	for (int i = 0; i < vecCourse.size(); ++i) {
+		if (vecCourse[i].assistSize()) {
+			fprintf(fp, "%03d\t", vecCourse[i].id);
+			for (int j = 0; j < vecCourse[i].assistSize(); ++j) {
+				if (j == vecCourse[i].assistSize() - 1) {
+					fprintf(fp, "%s\n", vecCourse[i].getAssistant(j).id.c_str());
+				} else {
+					fprintf(fp, "%s,", vecCourse[i].getAssistant(j).id.c_str());
+				}
+			}
+		}
 	}
 	fclose(fp);
 }

@@ -52,6 +52,10 @@ void Student::setAssistant(int id, Student assistant) {
 	update();
 }
 
+Student Student::getAssistant(int id) {
+	return mapCA.find(id)->second;
+}
+
 void Student::sync() {
 	mapCA.clear();
 	FILE* fp = fopen(("./data/student/" + id + ".txt").c_str(), "r");

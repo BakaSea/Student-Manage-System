@@ -73,10 +73,14 @@ void Course::sync() {
 	QJsonObject obj = jdoc.object();
 	QJsonArray arrayStu = obj.value("student").toArray(), arrayAssist = obj.value("assistant").toArray();
 	for (int i = 0; i < arrayStu.size(); ++i) {
-		vecStu.push_back(Student(arrayStu.at(i).toString().toStdString()));
+		Student student = Student(arrayStu.at(i).toString().toStdString());
+		vecStu.push_back(student);
+		mapStu[student] = vecStu.size() - 1;
 	}
 	for (int i = 0; i < arrayAssist.size(); ++i) {
-		vecAssist.push_back(Student(arrayAssist.at(i).toString().toStdString()));
+		Student assistant = Student(arrayAssist.at(i).toString().toStdString());
+		vecAssist.push_back(assistant);
+		mapAssist[assistant] = vecAssist.size() - 1;
 	}
 }
 
@@ -122,4 +126,8 @@ int Course::assistSize() {
 
 Student Course::getAssistant(int index) {
 	return vecAssist[index];
+}
+
+bool Course::containAssistant(Student assistant) {
+	return mapAssist.find(assistant) != mapAssist.end();
 }

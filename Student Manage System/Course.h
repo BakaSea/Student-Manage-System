@@ -41,6 +41,8 @@ public:
 	int assistSize();
 	//获取第index个助教
 	Student getAssistant(int index);
+	//判断是否存在该助教
+	bool containAssistant(Student assistant);
 private:
 	//存储该课的学生
 	vector<Student> vecStu;

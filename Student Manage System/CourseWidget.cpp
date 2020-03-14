@@ -50,7 +50,7 @@ void CourseWidget::deleteCourse() {
 				cm->deleteCourse(j);
 				j--;
 			} else {
-				//TODO
+				QMessageBox::warning(this, "Warning", QString::fromLocal8Bit((cm->getCourse(i).name + "人数不为零！").c_str()));
 			}
 		}
 	}
@@ -61,6 +61,10 @@ void CourseWidget::modifyCourse() {
 	if (cm->empty()) {
 		QMessageBox::warning(this, "Warning", QString::fromLocal8Bit("当前无课程！"));
 	} else {
+		if (ui.tableCourse->currentRow() == -1) {
+			QMessageBox::warning(this, "Warning", QString::fromLocal8Bit("未选择课程！"));
+			return;
+		}
 		ModifyCourseWidget* mcw = new ModifyCourseWidget(this, ui.tableCourse->currentRow());
 		childWidget.push_back(mcw);
 		mcw->show();
@@ -83,7 +87,7 @@ void CourseWidget::selectCourse() {
 					student->addCourse(cm->getCourse(i).id);
 					cm->addStudent(i, *student);
 				} else {
-					//TODO
+					QMessageBox::warning(this, "Warning", QString::fromLocal8Bit((cm->getCourse(i).name + "已满！").c_str()));
 				}
 			}
 		}

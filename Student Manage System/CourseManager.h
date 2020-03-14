@@ -27,13 +27,15 @@ public:
 	//删除学生
 	void deleteStudent(int id, Student student);
 	//添加助教
-	void addAssistant(int index, Student student);
+	void addAssistant(int id, Student student);
 	//删除助教
 	void deleteAssistant(int id, Student student);
 	//从文件中同步课程信息
 	void sync();
 	//将课程信息写入文件
 	void update();
+	//将助教信息写入文件
+	void updateAssistant();
 
 private:
 	vector<Course> vecCourse;

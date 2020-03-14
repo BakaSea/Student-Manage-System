@@ -24,11 +24,13 @@ public:
 	void deleteCourse(int id);
 	//设置助教
 	void setAssistant(int id, Student assistant);
+	//获取课程ID为id的课程的个人选择的助教
+	Student getAssistant(int id);
 	//从文件中同步学生信息
 	void sync();
 	//将学生信息写入到文件中
 	void update();
 private:
-	//存储课程ID和助教
+	//存储课程ID和个人选择的助教
 	map<int, Student> mapCA;
 };

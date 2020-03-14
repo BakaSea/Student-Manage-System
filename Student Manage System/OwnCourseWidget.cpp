@@ -1,6 +1,6 @@
 ﻿#include "OwnCourseWidget.h"
 #include <map>
-#include "Course.h"
+#include "AssistantWidget.h"
 
 OwnCourseWidget::OwnCourseWidget(Student *student, QWidget *parent)
 	: student(student), QWidget(parent) {
@@ -48,7 +48,9 @@ void OwnCourseWidget::dropCourse() {
 }
 
 void OwnCourseWidget::courseAssistant(int row, int col) {
-
+	AssistantWidget* aw = new AssistantWidget(student, cm, vecCourse[row].first);
+	childWidget.push_back(aw);
+	aw->show();
 }
 
 void OwnCourseWidget::refresh() {

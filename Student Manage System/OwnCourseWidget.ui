@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>OwnCourseWidget</string>
+   <string>个人课表</string>
   </property>
   <widget class="QTableWidget" name="tableCourse">
    <property name="geometry">
