@@ -4,6 +4,7 @@
 #include "ui_LoginWidget.h"
 #include <map>
 #include "Student.h"
+#include "RegistryManager.h"
 using namespace std;
 
 class LoginWidget : public QWidget {
@@ -22,12 +23,8 @@ protected slots:
 
 private:
 	Ui::LoginWidgetClass ui;
-	//存储学生id和密码
-	map<string, string> mapStu;
-	//从文件获取学生信息
-	void syncStudentList();
-	//将学生信息写入文件
-	int updateStudentList();
+	//管理学生信息
+	RegistryManager* rm;
 	//判断学生id是否合法
 	bool checkUsername(string name);
 };

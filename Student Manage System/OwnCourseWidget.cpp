@@ -41,6 +41,7 @@ void OwnCourseWidget::dropCourse() {
 			cm->deleteStudent(vecCourse[j].first, *student);
 			vecCourse.erase(vecCourse.begin() + j);
 			j--;
+			//TODO
 		}
 	}
 	syncTable();

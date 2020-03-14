@@ -9,23 +9,19 @@
 LoginWidget::LoginWidget(QWidget *parent)
 	: QWidget(parent) {
 	ui.setupUi(this);
-	syncStudentList();
+	rm = new RegistryManager();
 }
 
 void LoginWidget::loginStudent() {
-	map<string, string>::iterator iter = mapStu.find(ui.lineUsername->text().toStdString());
-	if (iter == mapStu.end()) {
+	if (!rm->studentExist(ui.lineUsername->text().toStdString())) {
 		ui.labelWarning->setStyleSheet("color:red");
 		ui.labelWarning->setText(QString::fromLocal8Bit("用户名错误！"));
 	} else {
-		//获取MD5
-		QString pw;
-		pw.append(QCryptographicHash::hash(ui.linePassword->text().toUtf8(), QCryptographicHash::Md5).toHex());
-		if (pw.toStdString() == iter->second) {
+		if (rm->loginSuccess(ui.lineUsername->text().toStdString(), ui.linePassword->text().toStdString())) {
 			ui.labelWarning->setStyleSheet("color:green");
 			ui.labelWarning->setText(QString::fromLocal8Bit("登录成功！"));
 			this->hide();
-			StudentMainWidget* smw = new StudentMainWidget(this, Student(iter->first));
+			StudentMainWidget* smw = new StudentMainWidget(this, Student(ui.lineUsername->text().toStdString()), rm);
 			smw->show();
 		} else {
 			ui.labelWarning->setStyleSheet("color:red");
@@ -55,22 +51,20 @@ void LoginWidget::loginAdmin() {
 void LoginWidget::registerStudent() {
 	string id = ui.lineUsername->text().toStdString();
 	if (checkUsername(id)) {
-		map<string, string>::iterator iter = mapStu.find(id);
-		if (iter == mapStu.end()) {
-			//获取MD5
-			QString pw;
-			pw.append(QCryptographicHash::hash(ui.linePassword->text().toUtf8(), QCryptographicHash::Md5).toHex());
-			mapStu[id] = pw.toStdString();
+		if (ui.linePassword->text().isEmpty()) {
+			ui.labelWarning->setStyleSheet("color:red");
+			ui.labelWarning->setText(QString::fromLocal8Bit("密码不能为空！"));
+		} else if (!rm->studentExist(id)) {
 			Student student(id);
 			student.update();
-			if (updateStudentList()) {
+			if (rm->addStudent(id, ui.linePassword->text().toStdString())) {
 				ui.labelWarning->setStyleSheet("color:green");
 				ui.labelWarning->setText(QString::fromLocal8Bit("注册成功！"));
 				this->hide();
-				StudentMainWidget* smw = new StudentMainWidget(this, Student(id));
+				StudentMainWidget* smw = new StudentMainWidget(this, Student(id), rm);
 				smw->show();
 			} else {
-				mapStu.erase(id);
+				rm->deleteStudent(id);
 				ui.labelWarning->setStyleSheet("color:red");
 				ui.labelWarning->setText(QString::fromLocal8Bit("注册失败！"));
 			}
@@ -82,54 +76,6 @@ void LoginWidget::registerStudent() {
 		ui.labelWarning->setStyleSheet("color:red");
 		ui.labelWarning->setText(QString::fromLocal8Bit("用户名不合法（9位学号）！"));
 	}
-}
-
-void LoginWidget::syncStudentList() {
-	mapStu.clear();
-	FILE* fp = fopen("./data/student/student.txt", "r");
-	if (fp != NULL) {
-		char str[50];
-		string id, password;
-		while (!feof(fp)) {
-			int flag = 0;
-			id.clear();
-			password.clear();
-			int x = fscanf(fp, "%s", str);
-			if (x == -1) break;
-			for (int i = 0; i < strlen(str); ++i) {
-				if (!flag && str[i] == ',') {
-					flag = 1;
-				} else {
-					if (!flag) {
-						id.push_back(str[i]);
-					} else {
-						password.push_back(str[i]);
-					}
-				}
-			}
-			mapStu[id] = password;
-		}
-		fclose(fp);
-	}
-}
-
-int LoginWidget::updateStudentList() {
-	QDir dir;
-	if (!dir.exists("./data")) {
-		dir.mkdir("./data");
-	}
-	if (!dir.exists("./data/student")) {
-		dir.mkdir("./data/student");
-	}
-	FILE* fp = fopen("./data/student/student.txt", "w");
-	if (fp == NULL) {
-		return 0;
-	}
-	for (map<string, string>::iterator iter = mapStu.begin(); iter != mapStu.end(); ++iter) {
-		fprintf(fp, "%s,%s\n", (iter->first).c_str(), (iter->second).c_str());
-	}
-	fclose(fp);
-	return 1;
 }
 
 bool LoginWidget::checkUsername(string name) {

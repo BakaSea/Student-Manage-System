@@ -5,13 +5,14 @@
 #include <vector>
 #include "LoginWidget.h"
 #include "Student.h"
+#include "RegistryManager.h"
 using namespace std;
 
 class StudentMainWidget : public QWidget {
 	Q_OBJECT
 
 public:
-	StudentMainWidget(LoginWidget *father, Student student, QWidget *parent = Q_NULLPTR);
+	StudentMainWidget(LoginWidget *father, Student student, RegistryManager *rm, QWidget *parent = Q_NULLPTR);
 	~StudentMainWidget();
 
 protected slots:
@@ -31,6 +32,7 @@ private:
 	Ui::StudentMainWidget ui;
 	vector<QWidget*> childWidget;
 	LoginWidget* father;
+	RegistryManager* rm;
 	//当前操作的学生
 	Student* student;
 };

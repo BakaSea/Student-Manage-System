@@ -1,9 +1,10 @@
 ﻿#include "StudentMainWidget.h"
 #include "CourseWidget.h"
 #include "OwnCourseWidget.h"
+#include "ModifyPasswordWidget.h"
 
-StudentMainWidget::StudentMainWidget(LoginWidget *father, Student student, QWidget *parent)
-	: father(father), QWidget(parent) {
+StudentMainWidget::StudentMainWidget(LoginWidget *father, Student student, RegistryManager *rm, QWidget *parent)
+	: father(father), rm(rm), QWidget(parent) {
 	ui.setupUi(this);
 	this->student = new Student(student.id);
 }
@@ -40,5 +41,7 @@ void StudentMainWidget::viewOwnCourse() {
 }
 
 void StudentMainWidget::modifyPassword() {
-
+	ModifyPasswordWidget* mpw = new ModifyPasswordWidget(*student, rm);
+	childWidget.push_back(mpw);
+	mpw->show();
 }
