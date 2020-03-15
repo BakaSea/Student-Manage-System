@@ -24,6 +24,8 @@ public:
 	void deleteCourse(int id);
 	//设置助教
 	void setAssistant(int id, Student assistant);
+	//删除助教
+	void deleteAssistant(int id);
 	//获取课程ID为id的课程的个人选择的助教
 	Student getAssistant(int id);
 	//从文件中同步学生信息

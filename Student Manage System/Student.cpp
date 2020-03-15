@@ -52,6 +52,10 @@ void Student::setAssistant(int id, Student assistant) {
 	update();
 }
 
+void Student::deleteAssistant(int id) {
+	setAssistant(id, Student());
+}
+
 Student Student::getAssistant(int id) {
 	return mapCA.find(id)->second;
 }

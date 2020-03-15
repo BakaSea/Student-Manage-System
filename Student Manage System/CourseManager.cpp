@@ -51,6 +51,10 @@ void CourseManager::addStudent(int index, Student student) {
 }
 
 void CourseManager::deleteStudent(int id, Student student) {
+	if (vecCourse[mapCourse[id]].containAssistant(student)) {
+		vecCourse[mapCourse[id]].deleteAssistant(student);
+		updateAssistant();
+	}
 	vecCourse[mapCourse[id]].deleteStudent(student);
 	update();
 }

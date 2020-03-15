@@ -80,19 +80,36 @@ void CourseWidget::viewCourse(int row, int col) {
 }
 
 void CourseWidget::selectCourse() {
+	int cnt = student->size();
 	for (int i = 0; i < cm->size(); ++i) {
 		if (!student->contain(cm->getCourse(i).id)) {
 			if (ui.tableCourse->item(i, 6)->checkState() == Qt::Checked) {
-				if (!cm->getCourse(i).full()) {
-					student->addCourse(cm->getCourse(i).id);
-					cm->addStudent(i, *student);
-				} else {
-					QMessageBox::warning(this, "Warning", QString::fromLocal8Bit((cm->getCourse(i).name + "已满！").c_str()));
-				}
+				cnt++;
 			}
 		}
 	}
-	syncTable();
+	for (int i = 0; i < cm->size(); ++i) {
+		if (!student->contain(cm->getCourse(i).id)) {
+			if (ui.tableCourse->item(i, 6)->checkState() == Qt::Checked) {
+				if (cnt > 10) {
+					ui.tableCourse->item(i, 6)->setCheckState(Qt::Unchecked);
+				} else {
+					if (!cm->getCourse(i).full()) {
+						student->addCourse(cm->getCourse(i).id);
+						cm->addStudent(i, *student);
+					} else {
+						QMessageBox::warning(this, "Warning", QString::fromLocal8Bit((cm->getCourse(i).name + "已满！").c_str()));
+					}
+				}
+				
+			}
+		}
+	}
+	if (cnt > 10) {
+		QMessageBox::warning(this, "Warning", QString::fromLocal8Bit("不能选多于10节课！"));
+	} else {
+		syncTable();
+	}
 }
 
 void CourseWidget::refresh() {
