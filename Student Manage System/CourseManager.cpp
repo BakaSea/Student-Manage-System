@@ -69,6 +69,14 @@ void CourseManager::deleteAssistant(int id, Student student) {
 	updateAssistant();
 }
 
+void CourseManager::addStudentToAssistant(int id, Student assistant, Student student) {
+	vecCourse[mapCourse[id]].addStudentToAssistant(assistant, student);
+}
+
+void CourseManager::deleteStudentToAssistant(int id, Student assistant, Student student) {
+	vecCourse[mapCourse[id]].deleteStudentToAssistant(assistant, student);
+}
+
 void CourseManager::update() {
 	QDir dir;
 	if (!dir.exists("./data")) {

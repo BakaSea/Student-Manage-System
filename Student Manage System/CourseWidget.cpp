@@ -73,7 +73,7 @@ void CourseWidget::modifyCourse() {
 
 void CourseWidget::viewCourse(int row, int col) {
 	if (userType == ADMIN) {
-		ViewCourseWidget* vcw = new ViewCourseWidget(this, row);
+		ViewCourseWidget* vcw = new ViewCourseWidget(cm->getCourse(row));
 		childWidget.push_back(vcw);
 		vcw->show();
 	}

@@ -95,6 +95,7 @@
     <ClCompile Include="RegistryManager.cpp" />
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="StudentMainWidget.cpp" />
+    <ClCompile Include="ViewAssistantWidget.cpp" />
     <ClCompile Include="ViewCourseWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +111,7 @@
     <QtUic Include="ModifyPasswordWidget.ui" />
     <QtUic Include="OwnCourseWidget.ui" />
     <QtUic Include="StudentMainWidget.ui" />
+    <QtUic Include="ViewAssistantWidget.ui" />
     <QtUic Include="ViewCourseWidget.ui" />
   </ItemGroup>
   <ItemGroup>
@@ -121,9 +123,11 @@
     <QtMoc Include="OwnCourseWidget.h" />
     <QtMoc Include="ModifyPasswordWidget.h" />
     <ClInclude Include="RegistryManager.h" />
+    <QtMoc Include="ViewAssistantWidget.h" />
     <ClInclude Include="x64\Debug\uic\ui_AssistantWidget.h" />
     <ClInclude Include="x64\Debug\uic\ui_ModifyPasswordWidget.h" />
     <ClInclude Include="x64\Debug\uic\ui_OwnCourseWidget.h" />
+    <ClInclude Include="x64\Debug\uic\ui_ViewAssistantWidget.h" />
     <ClInclude Include="x64\Debug\uic\ui_ViewCourseWidget.h" />
     <QtMoc Include="AddCourseWidget.h" />
     <ClInclude Include="Course.h" />

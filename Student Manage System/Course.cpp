@@ -50,7 +50,13 @@ void Course::update() {
 		arrayStu.append(QJsonValue(QString::fromStdString(vecStu[i].id)));
 	}
 	for (int i = 0; i < vecAssist.size(); ++i) {
-		arrayAssist.append(QJsonValue(QString::fromStdString(vecAssist[i].id)));
+		QJsonArray arrayAStu;
+		for (int j = 0; j < vecAStu[i].size(); ++j) {
+			arrayAStu.append(QJsonValue(QString::fromStdString(vecAStu[i][j].id)));
+		}
+		QJsonObject objAStu;
+		objAStu.insert(QString::fromStdString(vecAssist[i].id), arrayAStu);
+		arrayAssist.append(objAStu);
 	}
 	obj.insert("student", arrayStu);
 	obj.insert("assistant", arrayAssist);
@@ -78,9 +84,18 @@ void Course::sync() {
 		mapStu[student] = vecStu.size() - 1;
 	}
 	for (int i = 0; i < arrayAssist.size(); ++i) {
-		Student assistant = Student(arrayAssist.at(i).toString().toStdString());
+		QJsonObject objAStu = arrayAssist.at(i).toObject();
+		Student assistant = Student(objAStu.keys()[0].toStdString());
 		vecAssist.push_back(assistant);
+		vecAStu.push_back(vector<Student>());
+		mapAStu.push_back(map<Student, int>());
 		mapAssist[assistant] = vecAssist.size() - 1;
+		QJsonArray arrayAStu = objAStu.value(objAStu.keys()[0]).toArray();
+		for (int j = 0; j < arrayAStu.size(); ++j) {
+			Student student = Student(arrayAStu[j].toString().toStdString());
+			vecAStu[i].push_back(student);
+			mapAStu[i][student] = vecAStu[i].size() - 1;
+		}
 	}
 }
 
@@ -106,12 +121,17 @@ void Course::deleteStudent(Student student) {
 
 void Course::addAssistant(Student student) {
 	vecAssist.push_back(student);
+	vecAStu.push_back(vector<Student>());
+	mapAStu.push_back(map<Student, int>());
 	mapAssist[student] = vecAssist.size() - 1;
 	update();
 }
 
 void Course::deleteAssistant(Student student) {
-	vecAssist.erase(vecAssist.begin() + mapAssist[student]);
+	int index = mapAssist[student];
+	vecAssist.erase(vecAssist.begin() + index);
+	vecAStu.erase(vecAStu.begin() + index);
+	mapAStu.erase(mapAStu.begin() + index);
 	mapAssist.erase(student);
 	update();
 }
@@ -130,4 +150,23 @@ Student Course::getAssistant(int index) {
 
 bool Course::containAssistant(Student assistant) {
 	return mapAssist.find(assistant) != mapAssist.end();
+}
+
+void Course::addStudentToAssistant(Student assistant, Student student) {
+	int index = mapAssist[assistant];
+	vecAStu[index].push_back(student);
+	mapAStu[index][student] = vecAStu[index].size() - 1;
+	update();
+}
+
+void Course::deleteStudentToAssistant(Student assistant, Student student) {
+	int i = mapAssist[assistant];
+	int j = mapAStu[i][student];
+	vecAStu[i].erase(vecAStu[i].begin() + j);
+	mapAStu[i].erase(student);
+	update();
+}
+
+vector<Student> Course::getAStudent(Student assistant) {
+	return vecAStu[mapAssist[assistant]];
 }

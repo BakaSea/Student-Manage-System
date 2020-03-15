@@ -31,7 +31,9 @@ void AssistantWidget::selectAssistant() {
 	if (course.getAssistant(ui.listStudent->currentRow()) == *student) {
 		QMessageBox::warning(this, "Warning", QString::fromLocal8Bit("不能选择自己做助教！"));
 	} else {
-		student->setAssistant(id, course.getAssistant(ui.listStudent->currentRow()));
+		Student assistant = course.getAssistant(ui.listStudent->currentRow());
+		student->setAssistant(id, assistant);
+		cm->addStudentToAssistant(id, assistant, *student);
 	}
 	syncList();
 }

@@ -2,17 +2,23 @@
 
 #include <QWidget>
 #include "ui_ViewCourseWidget.h"
-#include "CourseWidget.h"
+#include "Course.h"
 
 class ViewCourseWidget : public QWidget {
 	Q_OBJECT
 
 public:
-	ViewCourseWidget(CourseWidget *father, int index, QWidget *parent = Q_NULLPTR);
+	ViewCourseWidget(Course course, QWidget *parent = Q_NULLPTR);
 	~ViewCourseWidget();
+
+protected slots:
+	void viewAssistant(QListWidgetItem *item);
+
+protected:
+	void closeEvent(QCloseEvent* event);
 
 private:
 	Ui::ViewCourseWidget ui;
-	CourseWidget* father;
-	int index;
+	Course course;
+	vector<QWidget*> childWidget;
 };

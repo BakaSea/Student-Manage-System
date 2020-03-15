@@ -30,6 +30,10 @@ public:
 	void addAssistant(int id, Student student);
 	//删除助教
 	void deleteAssistant(int id, Student student);
+	//向助教添加学生
+	void addStudentToAssistant(int id, Student assistant, Student student);
+	//向助教删除学生
+	void deleteStudentToAssistant(int id, Student assistant, Student student);
 	//从文件中同步课程信息
 	void sync();
 	//将课程信息写入文件

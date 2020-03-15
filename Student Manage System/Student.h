@@ -10,6 +10,7 @@ public:
 	string id;
 	Student();
 	Student(string id);
+	Student(const Student &A);
 	bool operator == (const Student& A) const;
 	bool operator < (const Student& A) const;
 	//获取所选课程的多少

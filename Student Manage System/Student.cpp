@@ -8,8 +8,12 @@ Student::Student() {
 }
 
 Student::Student(string id) : id(id) {
-	mapCA.clear();
 	sync();
+}
+
+Student::Student(const Student& A) {
+	id = A.id;
+	mapCA.clear();
 }
 
 bool Student::operator==(const Student& A) const {

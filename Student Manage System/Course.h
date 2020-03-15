@@ -43,6 +43,13 @@ public:
 	Student getAssistant(int index);
 	//判断是否存在该助教
 	bool containAssistant(Student assistant);
+	//向助教增加学生
+	void addStudentToAssistant(Student assistant, Student student);
+	//向助教删除学生
+	void deleteStudentToAssistant(Student assistant, Student student);
+	//获取该助教的学生
+	vector<Student> getAStudent(Student assistant);
+
 private:
 	//存储该课的学生
 	vector<Student> vecStu;
@@ -50,4 +57,7 @@ private:
 	//存储该课的助教
 	vector<Student> vecAssist;
 	map<Student, int> mapAssist;
+	//存储该课的助教教的学生
+	vector< vector<Student> > vecAStu;
+	vector< map<Student, int> > mapAStu;
 };

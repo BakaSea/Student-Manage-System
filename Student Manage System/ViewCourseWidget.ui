@@ -120,5 +120,25 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>listAssistant</sender>
+   <signal>itemDoubleClicked(QListWidgetItem*)</signal>
+   <receiver>ViewCourseWidget</receiver>
+   <slot>viewAssistant(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>385</x>
+     <y>150</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>431</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>viewAssistant(QListWidgetItem*)</slot>
+ </slots>
 </ui>

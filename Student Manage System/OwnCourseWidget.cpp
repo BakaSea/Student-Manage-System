@@ -54,6 +54,9 @@ void OwnCourseWidget::syncTable() {
 void OwnCourseWidget::dropCourse() {
 	for (int i = 0, j = 0; j < vecCourse.size(); ++i, ++j) {
 		if (ui.tableCourse->item(i, 5)->checkState() == Qt::Checked) {
+			if (vecCourse[j].second.id != "Null") {
+				cm->deleteStudentToAssistant(vecCourse[j].first, vecCourse[j].second, *student);
+			}
 			student->deleteCourse(vecCourse[j].first);
 			cm->deleteStudent(vecCourse[j].first, *student);
 			vecCourse.erase(vecCourse.begin() + j);
