@@ -24,6 +24,7 @@ void StudentMainWidget::closeEvent(QCloseEvent* event) {
 }
 
 void StudentMainWidget::logout() {
+	father->clearWidget();
 	father->show();
 	this->close();
 }

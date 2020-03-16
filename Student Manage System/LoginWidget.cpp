@@ -30,6 +30,12 @@ void LoginWidget::loginStudent() {
 	}
 }
 
+void LoginWidget::clearWidget() {
+	ui.lineUsername->setText("");
+	ui.linePassword->setText("");
+	ui.labelWarning->setText("");
+}
+
 void LoginWidget::loginAdmin() {
 	if (ui.lineUsername->text() == "Admin") {
 		if (ui.linePassword->text() == "admin") {

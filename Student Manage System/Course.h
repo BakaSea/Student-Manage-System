@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "Student.h"
-#include <map>
+#include <unordered_map>
 using namespace std;
 
 class Course {
@@ -49,15 +49,27 @@ public:
 	void deleteStudentToAssistant(Student assistant, Student student);
 	//获取该助教的学生
 	vector<Student> getAStudent(Student assistant);
+	//设置某个学生免修不免考
+	void setExempt(Student student, bool exempt);
+	//判断某个学生是否免修不免考
+	bool isExempt(Student student);
+	//获取免修不免考的学生
+	vector<Student> getExemptStudent();
+	//设置某个学生的成绩
+	void setScore(Student student, int score);
+	//获取某个学生的成绩
+	int getScore(Student student);
 
 private:
 	//存储该课的学生
 	vector<Student> vecStu;
-	map<Student, int> mapStu;
 	//存储该课的助教
 	vector<Student> vecAssist;
-	map<Student, int> mapAssist;
 	//存储该课的助教教的学生
 	vector< vector<Student> > vecAStu;
-	vector< map<Student, int> > mapAStu;
+	//存储学生是否免修不免考
+	unordered_map<string, bool> mapExempt;
+	//存储学生成绩
+	unordered_map<string, int> mapScore;
+	void init();
 };

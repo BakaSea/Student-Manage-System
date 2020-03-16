@@ -12,6 +12,7 @@ class LoginWidget : public QWidget {
 
 public:
 	LoginWidget(QWidget *parent = Q_NULLPTR);
+	void clearWidget();
 
 protected slots:
 	//学生登录

@@ -27,12 +27,12 @@ void RegistryManager::deleteStudent(string username) {
 }
 
 bool RegistryManager::studentExist(string username) {
-	map<string, string>::iterator iter = mapStu.find(username);
+	unordered_map<string, string>::iterator iter = mapStu.find(username);
 	return iter != mapStu.end();
 }
 
 bool RegistryManager::loginSuccess(string username, string password) {
-	map<string, string>::iterator iter = mapStu.find(username);
+	unordered_map<string, string>::iterator iter = mapStu.find(username);
 	if (iter == mapStu.end()) {
 		return false;
 	}
@@ -80,7 +80,7 @@ bool RegistryManager::update() {
 	}
 	QTextStream out(&fp);
 	out.setCodec("UTF-8");
-	for (map<string, string>::iterator iter = mapStu.begin(); iter != mapStu.end(); ++iter) {
+	for (unordered_map<string, string>::iterator iter = mapStu.begin(); iter != mapStu.end(); ++iter) {
 		out << QString::fromStdString(iter->first) << ',' << QString::fromStdString(iter->second) << endl;
 	}
 	fp.close();

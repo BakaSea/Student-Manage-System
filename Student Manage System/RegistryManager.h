@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <map>
+#include <unordered_map>
 #include <string>
 using namespace std;
 
@@ -20,7 +20,7 @@ public:
 
 private:
 	//存储学生id和密码
-	map<string, string> mapStu;
+	unordered_map<string, string> mapStu;
 	//从文件中同步学生信息
 	void sync();
 	//将学生信息写入到文件中

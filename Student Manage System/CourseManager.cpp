@@ -7,12 +7,10 @@
 
 CourseManager::CourseManager() {
 	vecCourse.clear();
-	mapCourse.clear();
 }
 
 CourseManager::~CourseManager() {
 	vecCourse.clear();
-	mapCourse.clear();
 }
 
 Course CourseManager::getCourse(int index) {
@@ -20,17 +18,20 @@ Course CourseManager::getCourse(int index) {
 }
 
 Course CourseManager::getCourseByID(int id) {
-	return vecCourse[mapCourse[id]];
+	for (int i = 0; i < vecCourse.size(); ++i) {
+		if (vecCourse[i].id == id) {
+			return vecCourse[i];
+		}
+	}
+	return Course();
 }
 
 void CourseManager::addCourse(Course course) {
 	vecCourse.push_back(course);
-	mapCourse[course.id] = vecCourse.size() - 1;
 	update();
 }
 
 void CourseManager::deleteCourse(int index) {
-	mapCourse.erase(vecCourse[index].id);
 	vecCourse.erase(vecCourse.begin() + index);
 	update();
 }
@@ -55,30 +56,91 @@ void CourseManager::addStudent(int index, Student student) {
 }
 
 void CourseManager::deleteStudent(int id, Student student) {
-	if (vecCourse[mapCourse[id]].containAssistant(student)) {
-		vecCourse[mapCourse[id]].deleteAssistant(student);
-		updateAssistant();
+	for (int i = 0; i < vecCourse.size(); ++i) {
+		if (vecCourse[i].id == id) {
+			if (vecCourse[i].containAssistant(student)) {
+				vecCourse[i].deleteAssistant(student);
+				updateAssistant();
+			}
+			vecCourse[i].deleteStudent(student);
+			break;
+		}
 	}
-	vecCourse[mapCourse[id]].deleteStudent(student);
 	update();
 }
 
 void CourseManager::addAssistant(int id, Student student) {
-	vecCourse[mapCourse[id]].addAssistant(student);
+	for (int i = 0; i < vecCourse.size(); ++i) {
+		if (vecCourse[i].id == id) {
+			vecCourse[i].addAssistant(student);
+			break;
+		}
+	}
 	updateAssistant();
 }
 
 void CourseManager::deleteAssistant(int id, Student student) {
-	vecCourse[mapCourse[id]].deleteAssistant(student);
+	for (int i = 0; i < vecCourse.size(); ++i) {
+		if (vecCourse[i].id == id) {
+			vecCourse[i].deleteAssistant(student);
+			break;
+		}
+	}
 	updateAssistant();
 }
 
 void CourseManager::addStudentToAssistant(int id, Student assistant, Student student) {
-	vecCourse[mapCourse[id]].addStudentToAssistant(assistant, student);
+	for (int i = 0; i < vecCourse.size(); ++i) {
+		if (vecCourse[i].id == id) {
+			vecCourse[i].addStudentToAssistant(assistant, student);
+			break;
+		}
+	}
 }
 
 void CourseManager::deleteStudentToAssistant(int id, Student assistant, Student student) {
-	vecCourse[mapCourse[id]].deleteStudentToAssistant(assistant, student);
+	for (int i = 0; i < vecCourse.size(); ++i) {
+		if (vecCourse[i].id == id) {
+			vecCourse[i].deleteStudentToAssistant(assistant, student);
+			break;
+		}
+	}
+}
+
+void CourseManager::setExempt(int id, Student student, bool exempt) {
+	for (int i = 0; i < vecCourse.size(); ++i) {
+		if (vecCourse[i].id == id) {
+			vecCourse[i].setExempt(student, exempt);
+			break;
+		}
+	}
+}
+
+bool CourseManager::isExempt(int id, Student student) {
+	for (int i = 0; i < vecCourse.size(); ++i) {
+		if (vecCourse[i].id == id) {
+			return vecCourse[i].isExempt(student);
+		}
+	}
+	return false;
+}
+
+void CourseManager::setScore(int id, Student student, int score) {
+	for (int i = 0; i < vecCourse.size(); ++i) {
+		if (vecCourse[i].id == id) {
+			vecCourse[i].setScore(student, score);
+			break;
+		}
+	}
+}
+
+int CourseManager::getScore(int id, Student student) {
+	for (int i = 0; i < vecCourse.size(); ++i) {
+		if (vecCourse[i].id == id) {
+			return vecCourse[i].getScore(student);
+		}
+	}
+	return 0;
 }
 
 void CourseManager::update() {
@@ -137,7 +199,6 @@ void CourseManager::updateAssistant() {
 
 void CourseManager::sync() {
 	vecCourse.clear();
-	mapCourse.clear();
 	QFile fp("./data/course/currentcourse.txt");
 	if (!fp.open(QIODevice::ReadOnly)) {
 		qDebug() << "File open failed";
@@ -158,7 +219,6 @@ void CourseManager::sync() {
 		Course course = Course(id, name, teacher, cap, cnt, Course::getTypebyName(type));
 		course.sync();
 		vecCourse.push_back(course);
-		mapCourse[id] = vecCourse.size() - 1;
 	}
 	fp.close();
 }

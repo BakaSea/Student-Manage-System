@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "Course.h"
 #include <vector>
-#include <map>
 using namespace std;
 
 class CourseManager {
@@ -34,6 +33,14 @@ public:
 	void addStudentToAssistant(int id, Student assistant, Student student);
 	//向助教删除学生
 	void deleteStudentToAssistant(int id, Student assistant, Student student);
+	//设置课程的学生免修不免考
+	void setExempt(int id, Student student, bool exempt);
+	//判断课程的学生是否免修不免考
+	bool isExempt(int id, Student student);
+	//设置课程的学生的成绩
+	void setScore(int id, Student student, int score);
+	//获取课程的学生的成绩
+	int getScore(int id, Student student);
 	//从文件中同步课程信息
 	void sync();
 	//将课程信息写入文件
@@ -43,5 +50,4 @@ public:
 
 private:
 	vector<Course> vecCourse;
-	map<int, int> mapCourse;
 };
