@@ -1,6 +1,9 @@
 ﻿#include "Student.h"
-#include <stdio.h>
 #include <qdir.h>
+#include <qfile.h>
+#include <qdebug.h>
+#include <qtextstream.h>
+#include <qiodevice.h>
 
 Student::Student() {
 	mapCA.clear();
@@ -66,17 +69,20 @@ Student Student::getAssistant(int id) {
 
 void Student::sync() {
 	mapCA.clear();
-	FILE* fp = fopen(("./data/student/" + id + ".txt").c_str(), "r");
-	if (fp != NULL) {
-		while (!feof(fp)) {
-			int id;
-			char name[20];
-			int x = fscanf(fp, "%d\t%s", &id, name);
-			if (x == -1) break;
-			addCourse(id);
-			setAssistant(id, Student(name));
-		}
+	QFile fp(QString::fromStdString("./data/student/" + id + ".txt"));
+	if (!fp.open(QIODevice::ReadOnly)) {
+		qDebug() << "File open failed!";
+		return;
 	}
+	QTextStream in(&fp);
+	in.setCodec("UTF-8");
+	while (!in.atEnd()) {
+		QStringList lineList = in.readLine().split('\t');
+		int id = lineList[0].toInt();
+		addCourse(id);
+		setAssistant(id, Student(lineList[1].toStdString()));
+	}
+	fp.close();
 }
 
 void Student::update() {
@@ -87,12 +93,15 @@ void Student::update() {
 	if (!dir.exists("./data/student")) {
 		dir.mkdir("./data/student");
 	}
-	FILE* fp = fopen(("./data/student/" + id + ".txt").c_str(), "w");
-	if (fp == NULL) {
+	QFile fp(QString::fromStdString("./data/student/" + id + ".txt"));
+	if (!fp.open(QIODevice::WriteOnly)) {
+		qDebug() << "File open failed!";
 		return;
 	}
+	QTextStream out(&fp);
+	out.setCodec("UTF-8");
 	for (map<int, Student>::iterator iter = mapCA.begin(); iter != mapCA.end(); ++iter) {
-		fprintf(fp, "%03d\t%s\n", iter->first, iter->second.id.c_str());
+		out << QString("%1").arg(iter->first, 3, 10, QChar('0')) << '\t' << QString::fromStdString(iter->second.id) << endl;
 	}
-	fclose(fp);
+	fp.close();
 }

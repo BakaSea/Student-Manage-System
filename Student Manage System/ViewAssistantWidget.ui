@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ViewAssistantWidget</string>
+   <string>助教信息</string>
   </property>
   <widget class="QListWidget" name="listStudent">
    <property name="geometry">

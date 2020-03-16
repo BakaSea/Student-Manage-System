@@ -1,8 +1,11 @@
 ﻿#include "RegistryManager.h"
 #include <qdir.h>
 #include <qcryptographichash.h>
-#include <stdio.h>
 #include <string.h>
+#include <qfile.h>
+#include <qiodevice.h>
+#include <qdebug.h>
+#include <qtextstream.h>
 
 RegistryManager::RegistryManager() {
 	sync();
@@ -48,31 +51,18 @@ bool RegistryManager::changePassword(string username, string password) {
 
 void RegistryManager::sync() {
 	mapStu.clear();
-	FILE* fp = fopen("./data/student/student.txt", "r");
-	if (fp != NULL) {
-		char str[50];
-		string id, password;
-		while (!feof(fp)) {
-			int flag = 0;
-			id.clear();
-			password.clear();
-			int x = fscanf(fp, "%s", str);
-			if (x == -1) break;
-			for (int i = 0; i < strlen(str); ++i) {
-				if (!flag && str[i] == ',') {
-					flag = 1;
-				} else {
-					if (!flag) {
-						id.push_back(str[i]);
-					} else {
-						password.push_back(str[i]);
-					}
-				}
-			}
-			mapStu[id] = password;
-		}
-		fclose(fp);
+	QFile fp("./data/student/student.txt");
+	if (!fp.open(QIODevice::ReadOnly)) {
+		qDebug() << "File open failed";
+		return;
 	}
+	QTextStream in(&fp);
+	in.setCodec("UTF-8");
+	while (!in.atEnd()) {
+		QStringList lineList = in.readLine().split(',');
+		mapStu[lineList[0].toStdString()] = lineList[1].toStdString();
+	}
+	fp.close();
 }
 
 bool RegistryManager::update() {
@@ -83,13 +73,16 @@ bool RegistryManager::update() {
 	if (!dir.exists("./data/student")) {
 		dir.mkdir("./data/student");
 	}
-	FILE* fp = fopen("./data/student/student.txt", "w");
-	if (fp == NULL) {
+	QFile fp("./data/student/student.txt");
+	if (!fp.open(QIODevice::WriteOnly)) {
+		qDebug() << "File open failed";
 		return false;
 	}
+	QTextStream out(&fp);
+	out.setCodec("UTF-8");
 	for (map<string, string>::iterator iter = mapStu.begin(); iter != mapStu.end(); ++iter) {
-		fprintf(fp, "%s,%s\n", (iter->first).c_str(), (iter->second).c_str());
+		out << QString::fromStdString(iter->first) << ',' << QString::fromStdString(iter->second) << endl;
 	}
-	fclose(fp);
+	fp.close();
 	return true;
 }

@@ -7,7 +7,7 @@
 #include <qjsonarray.h>
 #include <qiodevice.h>
 
-Course::Course() {
+Course::Course() : id(0), name(""), teacher(""), cap(0), type(SPEC) {
 	vecStu.clear();
 	mapStu.clear();
 }

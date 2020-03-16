@@ -1,5 +1,9 @@
 ﻿#include "CourseManager.h"
 #include <qdir.h>
+#include <qfile.h>
+#include <qiodevice.h>
+#include <qtextstream.h>
+#include <qdebug.h>
 
 CourseManager::CourseManager() {
 	vecCourse.clear();
@@ -85,14 +89,19 @@ void CourseManager::update() {
 	if (!dir.exists("./data/course")) {
 		dir.mkdir("./data/course");
 	}
-	FILE* fp = fopen("./data/course/currentcourse.txt", "w");
-	if (fp == NULL) {
+	QFile fp("./data/course/currentcourse.txt");
+	if (!fp.open(QIODevice::WriteOnly)) {
+		qDebug() << "File open failed";
 		return;
 	}
+	QTextStream out(&fp);
+	out.setCodec("UTF-8");
 	for (int i = 0; i < vecCourse.size(); ++i) {
-		fprintf(fp, "%03d\t%s\t%s\t%d\t%d\t%s\n", vecCourse[i].id, vecCourse[i].name.c_str(), vecCourse[i].teacher.c_str(), vecCourse[i].cap, vecCourse[i].getCnt(), vecCourse[i].getTypeName().c_str());
+		out << QString("%1").arg(vecCourse[i].id, 3, 10, QChar('0')) << "\t" << QString::fromLocal8Bit(vecCourse[i].name.c_str()) << "\t"
+			<< QString::fromLocal8Bit(vecCourse[i].teacher.c_str()) << "\t" << QString::number(vecCourse[i].cap) << "\t"
+			<< QString::number(vecCourse[i].getCnt()) << "\t" << QString::fromLocal8Bit(vecCourse[i].getTypeName().c_str()) << endl;
 	}
-	fclose(fp);
+	fp.close();
 }
 
 void CourseManager::updateAssistant() {
@@ -103,40 +112,53 @@ void CourseManager::updateAssistant() {
 	if (!dir.exists("./data/course")) {
 		dir.mkdir("./data/course");
 	}
-	FILE* fp = fopen("./data/course/assistant.txt", "w");
-	if (fp == NULL) {
+	QFile fp("./data/course/assistant.txt");
+	if (!fp.open(QIODevice::WriteOnly)) {
+		qDebug() << "File open failed";
 		return;
 	}
+	QTextStream out(&fp);
+	out.setCodec("UTF-8");
 	for (int i = 0; i < vecCourse.size(); ++i) {
 		if (vecCourse[i].assistSize()) {
-			fprintf(fp, "%03d\t", vecCourse[i].id);
+			out << QString("%1").arg(vecCourse[i].id, 3, 10, QChar('0')) << "\t";
 			for (int j = 0; j < vecCourse[i].assistSize(); ++j) {
+				out << QString::fromStdString(vecCourse[i].getAssistant(j).id);
 				if (j == vecCourse[i].assistSize() - 1) {
-					fprintf(fp, "%s\n", vecCourse[i].getAssistant(j).id.c_str());
+					 out << endl;
 				} else {
-					fprintf(fp, "%s,", vecCourse[i].getAssistant(j).id.c_str());
+					out << ",";
 				}
 			}
 		}
 	}
-	fclose(fp);
+	fp.close();
 }
 
 void CourseManager::sync() {
 	vecCourse.clear();
 	mapCourse.clear();
-	FILE* fp = fopen("./data/course/currentcourse.txt", "r");
-	if (fp != NULL) {
-		int id, cap, cnt;
-		char name[70], teacher[50], type[10];
-		while (!feof(fp)) {
-			int x = fscanf(fp, "%d\t%s\t%s\t%d\t%d\t%s", &id, name, teacher, &cap, &cnt, type);
-			if (x == -1) break;
-			Course course = Course(id, name, teacher, cap, cnt, Course::getTypebyName(type));
-			course.sync();
-			vecCourse.push_back(course);
-			mapCourse[id] = vecCourse.size()-1;
-		}
-		fclose(fp);
+	QFile fp("./data/course/currentcourse.txt");
+	if (!fp.open(QIODevice::ReadOnly)) {
+		qDebug() << "File open failed";
+		return;
 	}
+	QTextStream in(&fp);
+	in.setCodec("UTF-8");
+	while (!in.atEnd()) {
+		int id, cap, cnt;
+		string name, teacher, type;
+		QStringList lineList = in.readLine().split('\t');
+		id = lineList[0].toInt();
+		name = lineList[1].toLocal8Bit().toStdString();
+		teacher = lineList[2].toLocal8Bit().toStdString();
+		cap = lineList[3].toInt();
+		cnt = lineList[4].toInt();
+		type = lineList[5].toLocal8Bit().toStdString();
+		Course course = Course(id, name, teacher, cap, cnt, Course::getTypebyName(type));
+		course.sync();
+		vecCourse.push_back(course);
+		mapCourse[id] = vecCourse.size() - 1;
+	}
+	fp.close();
 }
