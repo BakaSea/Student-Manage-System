@@ -1,8 +1,8 @@
 ﻿#include "AssistantWidget.h"
 #include "qmessagebox.h"
 
-AssistantWidget::AssistantWidget(Student* student, CourseManager* cm, int id, QWidget *parent)
-	: student(student), cm(cm), id(id), QWidget(parent) {
+AssistantWidget::AssistantWidget(Student* student, CourseManager* cm, int id, OwnCourseWidget *father, QWidget *parent)
+	: student(student), cm(cm), id(id), father(father), QWidget(parent) {
 	ui.setupUi(this);
 	syncList();
 }
@@ -12,6 +12,8 @@ AssistantWidget::~AssistantWidget() {
 	delete student;
 	cm = NULL;
 	delete cm;
+	father = NULL;
+	delete father;
 }
 
 void AssistantWidget::enrollAssistant() {
@@ -38,6 +40,12 @@ void AssistantWidget::selectAssistant() {
 	syncList();
 }
 
+void AssistantWidget::changeExempt() {
+	cm->setExempt(id, *student, cm->isExempt(id, *student) ^ 1);
+	syncList();
+	father->syncCourse();
+}
+
 void AssistantWidget::syncList() {
 	ui.listStudent->clear();
 	course = cm->getCourseByID(id);
@@ -48,4 +56,5 @@ void AssistantWidget::syncList() {
 	for (int i = 0; i < course.assistSize(); ++i) {
 		ui.listStudent->addItem(QString::fromStdString(course.getAssistant(i).id));
 	}
+	ui.btnExempt->setText(course.isExempt(*student) ? QString::fromLocal8Bit("取消免修\n不免考") : QString::fromLocal8Bit("免修不免考"));
 }

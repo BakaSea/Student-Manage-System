@@ -137,7 +137,7 @@
     <string>刷新</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnInputStudent">
+  <widget class="QPushButton" name="btnAddStudent">
    <property name="geometry">
     <rect>
      <x>580</x>
@@ -147,7 +147,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>导入学生</string>
+    <string>添加学生</string>
    </property>
   </widget>
   <widget class="QLabel" name="labelAssistant">
@@ -197,22 +197,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>btnInputStudent</sender>
-   <signal>clicked()</signal>
-   <receiver>ViewCourseWidget</receiver>
-   <slot>inputStudent()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>627</x>
-     <y>83</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>500</x>
-     <y>126</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>btnRefresh</sender>
    <signal>clicked()</signal>
    <receiver>ViewCourseWidget</receiver>
@@ -244,11 +228,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btnAddStudent</sender>
+   <signal>clicked()</signal>
+   <receiver>ViewCourseWidget</receiver>
+   <slot>addStudent()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>628</x>
+     <y>85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>630</x>
+     <y>125</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>viewAssistant(QListWidgetItem*)</slot>
-  <slot>inputStudent()</slot>
   <slot>inputScore()</slot>
   <slot>refresh()</slot>
+  <slot>addStudent()</slot>
  </slots>
 </ui>

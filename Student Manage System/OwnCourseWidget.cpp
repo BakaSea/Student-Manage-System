@@ -70,7 +70,7 @@ void OwnCourseWidget::dropCourse() {
 }
 
 void OwnCourseWidget::courseAssistant(int row, int col) {
-	AssistantWidget* aw = new AssistantWidget(student, cm, vecCourse[row].first);
+	AssistantWidget* aw = new AssistantWidget(student, cm, vecCourse[row].first, this);
 	childWidget.push_back(aw);
 	aw->show();
 }

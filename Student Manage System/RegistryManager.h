@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <unordered_map>
 #include <string>
+#include "Student.h"
 using namespace std;
 
 class RegistryManager {
@@ -19,6 +20,8 @@ public:
 	bool changePassword(string username, string password);
 	//判断学生id是否合法
 	bool checkUsername(string username);
+	//获取学生名单
+	vector<Student> getVector();
 
 private:
 	//存储学生id和密码

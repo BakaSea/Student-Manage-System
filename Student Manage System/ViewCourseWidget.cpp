@@ -1,9 +1,13 @@
 ﻿#include "ViewCourseWidget.h"
 #include "ViewAssistantWidget.h"
-#include "qfiledialog.h"
+#include <qfiledialog.h>
+#include <qiodevice.h>
+#include <qmessagebox.h>
+#include <qtextstream.h>
+#include "AddStudentWidget.h"
 
-ViewCourseWidget::ViewCourseWidget(CourseManager *cm, int index, RegistryManager *rm, QWidget *parent)
-	: cm(cm), index(index), rm(rm), QWidget(parent) {
+ViewCourseWidget::ViewCourseWidget(CourseManager *cm, int index, RegistryManager *rm, CourseWidget *father, QWidget *parent)
+	: cm(cm), index(index), rm(rm), father(father), QWidget(parent) {
 	ui.setupUi(this);
 	syncTable();
 }
@@ -14,14 +18,39 @@ ViewCourseWidget::~ViewCourseWidget() {
 	delete rm;
 	cm = NULL;
 	delete cm;
+	father = NULL;
+	delete father;
 }
 
 void ViewCourseWidget::inputScore() {
-
+	QString path = QFileDialog::getOpenFileName(this, "", ".", "(*.csv)");
+	QFile fp(path);
+	if (!fp.open(QIODevice::ReadOnly)) {
+		QMessageBox::critical(this, "Error", QString::fromLocal8Bit("导入失败！"));
+	} else {
+		QTextStream in(&fp);
+		int success = 0, fail = 0;
+		while (!in.atEnd()) {
+			QStringList lineList = in.readLine().split(',');
+			Student student = Student(lineList[0].toStdString());
+			int score = lineList[1].toInt();
+			if (course.containStudent(student) && 0 <= score && score <= 100) {
+				cm->setScore(index, student, score);
+				success++;
+			} else {
+				fail++;
+			}
+		}
+		fp.close();
+		QMessageBox::information(this, "Confirm", QString(QString::fromLocal8Bit("共导入%1个，成功%2个，失败%3个")).arg(success + fail).arg(success).arg(fail));
+		syncTable();
+	}
 }
 
-void ViewCourseWidget::inputStudent() {
-
+void ViewCourseWidget::addStudent() {
+	AddStudentWidget* asw = new AddStudentWidget(cm, index, rm, this, father);
+	childWidget.push_back(asw);
+	asw->show();
 }
 
 void ViewCourseWidget::refresh() {

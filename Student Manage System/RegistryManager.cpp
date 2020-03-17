@@ -60,6 +60,15 @@ bool RegistryManager::checkUsername(string username) {
 	return true;
 }
 
+vector<Student> RegistryManager::getVector() {
+	vector<Student> vecStu;
+	vecStu.clear();
+	for (unordered_map<string, string>::iterator iter = mapStu.begin(); iter != mapStu.end(); ++iter) {
+		vecStu.push_back(Student(iter->first));
+	}
+	return vecStu;
+}
+
 void RegistryManager::sync() {
 	mapStu.clear();
 	QFile fp("./data/student/student.txt");

@@ -47,6 +47,9 @@
     <ClCompile Include="ViewAssistantWidget.cpp">
       <Filter>Source Files\Widget</Filter>
     </ClCompile>
+    <ClCompile Include="AddStudentWidget.cpp">
+      <Filter>Source Files\Widget</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -125,6 +128,9 @@
     <QtMoc Include="ViewAssistantWidget.h">
       <Filter>Header Files\Widget</Filter>
     </QtMoc>
+    <QtMoc Include="AddStudentWidget.h">
+      <Filter>Header Files\Widget</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="LoginWidget.ui">
@@ -158,6 +164,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="ViewAssistantWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="AddStudentWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -210,6 +219,9 @@
       <Filter>Header Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="x64\Debug\uic\ui_ViewAssistantWidget.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="x64\Debug\uic\ui_AddStudentWidget.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>

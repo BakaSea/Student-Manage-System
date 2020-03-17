@@ -37,6 +37,8 @@ public:
 	void deleteAssistant(Student student);
 	//获取第index个学生
 	Student getStudent(int index);
+	//判断是否存在该学生
+	bool containStudent(Student student);
 	//获取助教人数
 	int assistSize();
 	//获取第index个助教

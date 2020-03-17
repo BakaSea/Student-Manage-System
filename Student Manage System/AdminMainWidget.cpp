@@ -85,6 +85,7 @@ void AdminMainWidget::inputStudent() {
 				fail++;
 			}
 		}
+		fp.close();
 		QMessageBox::information(this, "Confirm", QString(QString::fromLocal8Bit("共导入%1个，成功%2个，失败%3个")).arg(success + fail).arg(success).arg(fail));
 	}
 }

@@ -125,13 +125,8 @@ bool CourseManager::isExempt(int id, Student student) {
 	return false;
 }
 
-void CourseManager::setScore(int id, Student student, int score) {
-	for (int i = 0; i < vecCourse.size(); ++i) {
-		if (vecCourse[i].id == id) {
-			vecCourse[i].setScore(student, score);
-			break;
-		}
-	}
+void CourseManager::setScore(int index, Student student, int score) {
+	vecCourse[index].setScore(student, score);
 }
 
 int CourseManager::getScore(int id, Student student) {
@@ -140,7 +135,7 @@ int CourseManager::getScore(int id, Student student) {
 			return vecCourse[i].getScore(student);
 		}
 	}
-	return 0;
+	return -1;
 }
 
 void CourseManager::update() {

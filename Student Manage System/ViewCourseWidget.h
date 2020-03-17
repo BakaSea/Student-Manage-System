@@ -5,13 +5,16 @@
 #include "RegistryManager.h"
 #include "CourseManager.h"
 #include "Course.h"
+#include "CourseWidget.h"
 
 class ViewCourseWidget : public QWidget {
 	Q_OBJECT
 
 public:
-	ViewCourseWidget(CourseManager *cm, int index, RegistryManager *rm, QWidget *parent = Q_NULLPTR);
+	ViewCourseWidget(CourseManager *cm, int index, RegistryManager *rm, CourseWidget *father, QWidget *parent = Q_NULLPTR);
 	~ViewCourseWidget();
+	//同步到表格
+	void syncTable();
 
 protected slots:
 	//查看助教的学生
@@ -19,7 +22,7 @@ protected slots:
 	//导入成绩
 	void inputScore();
 	//导入学生
-	void inputStudent();
+	void addStudent();
 	//刷新
 	void refresh();
 
@@ -31,8 +34,7 @@ private:
 	vector<QWidget*> childWidget;
 	RegistryManager* rm;
 	CourseManager* cm;
+	CourseWidget* father;
 	int index;
 	Course course;
-	//同步到表格
-	void syncTable();
 };

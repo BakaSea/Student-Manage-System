@@ -19,10 +19,10 @@ public:
 	//学生登录
 	CourseWidget(UserType userType, Student *student, QWidget* parent = Q_NULLPTR);
 	~CourseWidget();
-	//管理所有课程信息
-	CourseManager* cm;
 	//将课程信息同步到表格
 	void syncTable();
+	//管理所有课程信息
+	CourseManager* cm;
 
 protected slots:
 	//增加课程

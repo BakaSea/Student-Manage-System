@@ -13,8 +13,8 @@ class OwnCourseWidget : public QWidget {
 public:
 	OwnCourseWidget(Student *student, QWidget *parent = Q_NULLPTR);
 	~OwnCourseWidget();
-	//将课程信息同步到表格
-	void syncTable();
+	//同步课程
+	void syncCourse();
 
 protected slots:
 	//退课
@@ -36,6 +36,6 @@ private:
 	CourseManager* cm;
 	//存储课表中的课程信息
 	vector< pair<int, Student> > vecCourse;
-	//同步课程
-	void syncCourse();
+	//将课程信息同步到表格
+	void syncTable();
 };

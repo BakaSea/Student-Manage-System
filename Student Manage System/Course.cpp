@@ -147,6 +147,10 @@ Student Course::getStudent(int index) {
 	return vecStu[index];
 }
 
+bool Course::containStudent(Student student) {
+	return mapExempt.find(student.id) != mapExempt.end();
+}
+
 int Course::assistSize() {
 	return vecAssist.size();
 }

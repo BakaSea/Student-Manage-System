@@ -38,7 +38,7 @@ public:
 	//判断课程的学生是否免修不免考
 	bool isExempt(int id, Student student);
 	//设置课程的学生的成绩
-	void setScore(int id, Student student, int score);
+	void setScore(int index, Student student, int score);
 	//获取课程的学生的成绩
 	int getScore(int id, Student student);
 	//从文件中同步课程信息

@@ -116,6 +116,19 @@
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="btnExempt">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>280</y>
+     <width>75</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>免修不免考</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
@@ -152,9 +165,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btnExempt</sender>
+   <signal>clicked()</signal>
+   <receiver>AssistantWidget</receiver>
+   <slot>changeExempt()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>282</x>
+     <y>295</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>306</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>enrollAssistant()</slot>
   <slot>selectAssistant()</slot>
+  <slot>changeExempt()</slot>
  </slots>
 </ui>
