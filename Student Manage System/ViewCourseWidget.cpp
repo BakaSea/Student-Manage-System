@@ -1,23 +1,31 @@
 ﻿#include "ViewCourseWidget.h"
 #include "ViewAssistantWidget.h"
+#include "qfiledialog.h"
 
-ViewCourseWidget::ViewCourseWidget(Course course, QWidget *parent)
-	: course(course), QWidget(parent) {
+ViewCourseWidget::ViewCourseWidget(CourseManager *cm, int index, RegistryManager *rm, QWidget *parent)
+	: cm(cm), index(index), rm(rm), QWidget(parent) {
 	ui.setupUi(this);
-	setWindowTitle(QString::fromLocal8Bit("课程ID: ") + QString::number(course.id));
-	ui.labelName->setText(QString::fromLocal8Bit(course.name.c_str()));
-	ui.labelTeacher->setText(QString::fromLocal8Bit(course.teacher.c_str()));
-	ui.labelCnt->setText(QString::number(course.getCnt()) + "/" + QString::number(course.cap));
-	for (int i = 0; i < course.getCnt(); ++i) {
-		ui.listStudent->addItem(QString::fromStdString(course.getStudent(i).id));
-	}
-	for (int i = 0; i < course.assistSize(); ++i) {
-		ui.listAssistant->addItem(QString::fromStdString(course.getAssistant(i).id));
-	}
+	syncTable();
 }
 
 ViewCourseWidget::~ViewCourseWidget() {
 	childWidget.clear();
+	rm = NULL;
+	delete rm;
+	cm = NULL;
+	delete cm;
+}
+
+void ViewCourseWidget::inputScore() {
+
+}
+
+void ViewCourseWidget::inputStudent() {
+
+}
+
+void ViewCourseWidget::refresh() {
+	syncTable();
 }
 
 void ViewCourseWidget::closeEvent(QCloseEvent* event) {
@@ -28,7 +36,27 @@ void ViewCourseWidget::closeEvent(QCloseEvent* event) {
 	}
 }
 
-void ViewCourseWidget::viewAssistant(QListWidgetItem* item) {
+void ViewCourseWidget::syncTable() {
+	course = cm->getCourse(index);
+	setWindowTitle(QString::fromLocal8Bit("课程ID: ") + QString::number(course.id));
+	ui.labelName->setText(QString::fromLocal8Bit(course.name.c_str()));
+	ui.labelTeacher->setText(QString::fromLocal8Bit(course.teacher.c_str()));
+	ui.labelCnt->setText(QString::number(course.getCnt()) + "/" + QString::number(course.cap));
+	ui.tableStudent->clearContents();
+	ui.tableStudent->setRowCount(course.getCnt());
+	for (int i = 0; i < course.getCnt(); ++i) {
+		Student student = course.getStudent(i);
+		ui.tableStudent->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(student.id)));
+		int score = course.getScore(student);
+		ui.tableStudent->setItem(i, 1, new QTableWidgetItem(course.isExempt(student) ? QString::fromLocal8Bit("是") : QString::fromLocal8Bit("否")));
+		ui.tableStudent->setItem(i, 2, new QTableWidgetItem(score == -1 ? QString::fromLocal8Bit("未录入") : QString::number(score)));
+	}
+	for (int i = 0; i < course.assistSize(); ++i) {
+		ui.listAssistant->addItem(QString::fromStdString(course.getAssistant(i).id));
+	}
+}
+
+void ViewCourseWidget::viewAssistant(QListWidgetItem *item) {
 	ViewAssistantWidget* vaw = new ViewAssistantWidget(course, course.getAssistant(ui.listAssistant->currentRow()));
 	childWidget.push_back(vaw);
 	vaw->show();

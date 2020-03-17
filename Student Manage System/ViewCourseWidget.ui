@@ -6,65 +6,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>490</width>
-    <height>330</height>
+    <width>660</width>
+    <height>410</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>660</width>
+    <height>410</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>660</width>
+    <height>410</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>ViewCourseWidget</string>
   </property>
-  <widget class="QListWidget" name="listStudent">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>40</y>
-     <width>230</width>
-     <height>281</height>
-    </rect>
-   </property>
-   <property name="editTriggers">
-    <set>QAbstractItemView::NoEditTriggers</set>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="listAssistant">
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>40</y>
-     <width>230</width>
-     <height>281</height>
-    </rect>
-   </property>
-   <property name="editTriggers">
-    <set>QAbstractItemView::NoEditTriggers</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="labelStudent">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>20</y>
-     <width>54</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>学生名单</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="labelAssistant">
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>20</y>
-     <width>54</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>助教名单</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="labelName">
    <property name="geometry">
     <rect>
@@ -117,10 +77,157 @@
     <string>授课教师</string>
    </property>
   </widget>
+  <widget class="QTableWidget" name="tableStudent">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>321</width>
+     <height>381</height>
+    </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <column>
+    <property name="text">
+     <string>学生</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>免修不免考</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>成绩</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="btnInputScore">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>20</y>
+     <width>75</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>导入成绩</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnRefresh">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>370</y>
+     <width>75</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>刷新</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnInputStudent">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>60</y>
+     <width>75</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>导入学生</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelAssistant">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>0</y>
+     <width>54</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>助教名单</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listAssistant">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>20</y>
+     <width>231</width>
+     <height>381</height>
+    </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections>
+  <connection>
+   <sender>btnInputScore</sender>
+   <signal>clicked()</signal>
+   <receiver>ViewCourseWidget</receiver>
+   <slot>inputScore()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>608</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>468</x>
+     <y>146</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnInputStudent</sender>
+   <signal>clicked()</signal>
+   <receiver>ViewCourseWidget</receiver>
+   <slot>inputStudent()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>627</x>
+     <y>83</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>500</x>
+     <y>126</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnRefresh</sender>
+   <signal>clicked()</signal>
+   <receiver>ViewCourseWidget</receiver>
+   <slot>refresh()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>612</x>
+     <y>392</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>475</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
   <connection>
    <sender>listAssistant</sender>
    <signal>itemDoubleClicked(QListWidgetItem*)</signal>
@@ -128,17 +235,20 @@
    <slot>viewAssistant(QListWidgetItem*)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>385</x>
-     <y>150</y>
+     <x>532</x>
+     <y>227</y>
     </hint>
     <hint type="destinationlabel">
-     <x>431</x>
-     <y>20</y>
+     <x>625</x>
+     <y>221</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
   <slot>viewAssistant(QListWidgetItem*)</slot>
+  <slot>inputStudent()</slot>
+  <slot>inputScore()</slot>
+  <slot>refresh()</slot>
  </slots>
 </ui>

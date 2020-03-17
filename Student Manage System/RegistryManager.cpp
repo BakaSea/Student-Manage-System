@@ -6,6 +6,7 @@
 #include <qiodevice.h>
 #include <qdebug.h>
 #include <qtextstream.h>
+#include "Student.h"
 
 RegistryManager::RegistryManager() {
 	sync();
@@ -19,6 +20,8 @@ bool RegistryManager::addStudent(string username, string password) {
 	QString pw;
 	pw.append(QCryptographicHash::hash(password.c_str(), QCryptographicHash::Md5).toHex());
 	mapStu[username] = pw.toStdString();
+	Student student(username);
+	student.update();
 	return update();
 }
 
@@ -47,6 +50,14 @@ bool RegistryManager::loginSuccess(string username, string password) {
 
 bool RegistryManager::changePassword(string username, string password) {
 	return addStudent(username, password);
+}
+
+bool RegistryManager::checkUsername(string username) {
+	if (username.size() != 9) return false;
+	for (int i = 0; i < username.size(); ++i) {
+		if (!isdigit(username[i])) return false;
+	}
+	return true;
 }
 
 void RegistryManager::sync() {

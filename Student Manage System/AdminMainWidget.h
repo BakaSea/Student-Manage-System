@@ -3,13 +3,14 @@
 #include <QWidget>
 #include "ui_AdminMainWidget.h"
 #include <vector>
+#include "RegistryManager.h"
 using namespace std;
 
 class AdminMainWidget : public QWidget {
 	Q_OBJECT
 
 public:
-	AdminMainWidget(QWidget* parent = Q_NULLPTR);
+	AdminMainWidget(RegistryManager *rm, QWidget* parent = Q_NULLPTR);
 	~AdminMainWidget();
 
 protected slots:
@@ -19,6 +20,8 @@ protected slots:
 	void inputCourse();
 	//查看课程信息
 	void viewCourse();
+	//导入学生名单
+	void inputStudent();
 
 protected:
 	void closeEvent(QCloseEvent* event);
@@ -26,4 +29,5 @@ protected:
 private:
 	Ui::AdminMainWidget ui;
 	vector<QWidget*> childWidget;
+	RegistryManager* rm;
 };

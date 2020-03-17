@@ -42,7 +42,7 @@ void LoginWidget::loginAdmin() {
 			ui.labelWarning->setStyleSheet("color:green");
 			ui.labelWarning->setText(QString::fromLocal8Bit("登录成功！"));
 			this->close();
-			AdminMainWidget* amw = new AdminMainWidget();
+			AdminMainWidget* amw = new AdminMainWidget(rm);
 			amw->show();
 		} else {
 			ui.labelWarning->setStyleSheet("color:red");
@@ -56,13 +56,12 @@ void LoginWidget::loginAdmin() {
 
 void LoginWidget::registerStudent() {
 	string id = ui.lineUsername->text().toStdString();
-	if (checkUsername(id)) {
+	if (rm->checkUsername(id)) {
 		if (ui.linePassword->text().isEmpty()) {
 			ui.labelWarning->setStyleSheet("color:red");
 			ui.labelWarning->setText(QString::fromLocal8Bit("密码不能为空！"));
 		} else if (!rm->studentExist(id)) {
 			Student student(id);
-			student.update();
 			if (rm->addStudent(id, ui.linePassword->text().toStdString())) {
 				ui.labelWarning->setStyleSheet("color:green");
 				ui.labelWarning->setText(QString::fromLocal8Bit("注册成功！"));
@@ -82,12 +81,4 @@ void LoginWidget::registerStudent() {
 		ui.labelWarning->setStyleSheet("color:red");
 		ui.labelWarning->setText(QString::fromLocal8Bit("用户名不合法（9位学号）！"));
 	}
-}
-
-bool LoginWidget::checkUsername(string name) {
-	if (name.size() != 9) return false;
-	for (int i = 0; i < name.size(); ++i) {
-		if (!isdigit(name[i])) return false;
-	}
-	return true;
 }

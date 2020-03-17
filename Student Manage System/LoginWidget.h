@@ -26,6 +26,4 @@ private:
 	Ui::LoginWidgetClass ui;
 	//管理学生信息
 	RegistryManager* rm;
-	//判断学生id是否合法
-	bool checkUsername(string name);
 };

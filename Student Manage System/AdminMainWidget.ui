@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>200</width>
-    <height>180</height>
+    <width>140</width>
+    <height>170</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>200</width>
-    <height>180</height>
+    <width>140</width>
+    <height>170</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>200</width>
-    <height>180</height>
+    <width>140</width>
+    <height>170</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -28,8 +28,8 @@
   <widget class="QPushButton" name="btnLogout">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>120</y>
+     <x>10</x>
+     <y>130</y>
      <width>120</width>
      <height>30</height>
     </rect>
@@ -41,8 +41,8 @@
   <widget class="QPushButton" name="btnInputCourse">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>40</y>
+     <x>10</x>
+     <y>10</y>
      <width>120</width>
      <height>30</height>
     </rect>
@@ -54,14 +54,27 @@
   <widget class="QPushButton" name="btnViewCourse">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>80</y>
+     <x>10</x>
+     <y>50</y>
      <width>120</width>
      <height>30</height>
     </rect>
    </property>
    <property name="text">
     <string>查看全部课程信息</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnInputStudent">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>120</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>导入学生名单</string>
    </property>
   </widget>
  </widget>
@@ -76,7 +89,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>111</x>
-     <y>129</y>
+     <y>139</y>
     </hint>
     <hint type="destinationlabel">
      <x>149</x>
@@ -92,7 +105,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>149</x>
-     <y>95</y>
+     <y>65</y>
     </hint>
     <hint type="destinationlabel">
      <x>183</x>
@@ -108,11 +121,27 @@
    <hints>
     <hint type="sourcelabel">
      <x>130</x>
-     <y>61</y>
+     <y>31</y>
     </hint>
     <hint type="destinationlabel">
      <x>184</x>
      <y>62</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnInputStudent</sender>
+   <signal>clicked()</signal>
+   <receiver>AdminMainWidget</receiver>
+   <slot>inputStudent()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>54</x>
+     <y>107</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>23</x>
+     <y>111</y>
     </hint>
    </hints>
   </connection>
@@ -121,5 +150,6 @@
   <slot>logout()</slot>
   <slot>viewCourse()</slot>
   <slot>inputCourse()</slot>
+  <slot>inputStudent()</slot>
  </slots>
 </ui>

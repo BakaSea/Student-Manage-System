@@ -7,8 +7,8 @@
 #include <qmessagebox.h>
 #include <qfile.h>
 
-CourseWidget::CourseWidget(UserType userType, QWidget *parent)
-	: userType(userType), QWidget(parent) {
+CourseWidget::CourseWidget(UserType userType, RegistryManager *rm, QWidget *parent)
+	: userType(userType), rm(rm), QWidget(parent) {
 	ui.setupUi(this);
 	cm = new CourseManager();
 	syncCourse();
@@ -31,6 +31,8 @@ CourseWidget::CourseWidget(UserType userType, Student *student, QWidget* parent)
 
 CourseWidget::~CourseWidget() {
 	childWidget.clear();
+	rm = NULL;
+	delete rm;
 	delete cm;
 	student = NULL;
 	delete student;
@@ -73,7 +75,7 @@ void CourseWidget::modifyCourse() {
 
 void CourseWidget::viewCourse(int row, int col) {
 	if (userType == ADMIN) {
-		ViewCourseWidget* vcw = new ViewCourseWidget(cm->getCourse(row));
+		ViewCourseWidget* vcw = new ViewCourseWidget(cm, row, rm);
 		childWidget.push_back(vcw);
 		vcw->show();
 	}

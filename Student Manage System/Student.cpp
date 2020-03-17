@@ -68,6 +68,7 @@ Student Student::getAssistant(int id) {
 }
 
 void Student::sync() {
+	if (id == "Null") return;
 	mapCA.clear();
 	QFile fp(QString::fromStdString("./data/student/" + id + ".txt"));
 	if (!fp.open(QIODevice::ReadOnly)) {

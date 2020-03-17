@@ -6,6 +6,7 @@
 #include <vector>
 #include "Student.h"
 #include "CourseManager.h"
+#include "RegistryManager.h"
 using namespace std;
 
 class CourseWidget : public QWidget {
@@ -14,7 +15,7 @@ class CourseWidget : public QWidget {
 public:
 	enum UserType {STUDENT, ADMIN};
 	//管理员登录
-	CourseWidget(UserType userType, QWidget *parent = Q_NULLPTR);
+	CourseWidget(UserType userType, RegistryManager *rm, QWidget *parent = Q_NULLPTR);
 	//学生登录
 	CourseWidget(UserType userType, Student *student, QWidget* parent = Q_NULLPTR);
 	~CourseWidget();
@@ -43,6 +44,7 @@ protected:
 private:
 	Ui::CourseWidget ui;
 	vector<QWidget*> childWidget;
+	RegistryManager* rm;
 	//同步课程信息
 	void syncCourse();
 	//用户类型

@@ -10,8 +10,8 @@
 #include <qfiledialog.h>
 #include <qtextcodec.h>
 
-AdminMainWidget::AdminMainWidget(QWidget *parent)
-	: QWidget(parent) {
+AdminMainWidget::AdminMainWidget(RegistryManager *rm, QWidget *parent)
+	: rm(rm), QWidget(parent) {
 	ui.setupUi(this);
 	childWidget.clear();
 	if (QFile::exists("./data/course/currentcourse.txt")) {
@@ -20,7 +20,8 @@ AdminMainWidget::AdminMainWidget(QWidget *parent)
 }
 
 AdminMainWidget::~AdminMainWidget() {
-
+	rm = NULL;
+	delete rm;
 }
 
 void AdminMainWidget::inputCourse() {
@@ -60,9 +61,32 @@ void AdminMainWidget::inputCourse() {
 }
 
 void AdminMainWidget::viewCourse() {
-	CourseWidget* cw = new CourseWidget(CourseWidget::ADMIN);
+	CourseWidget* cw = new CourseWidget(CourseWidget::ADMIN, rm);
 	childWidget.push_back(cw);
 	cw->show();
+}
+
+void AdminMainWidget::inputStudent() {
+	QString path = QFileDialog::getOpenFileName(this, "", ".", "(*.csv)");
+	QFile fp(path);
+	if (!fp.open(QIODevice::ReadOnly)) {
+		QMessageBox::critical(this, "Error", QString::fromLocal8Bit("导入失败！"));
+	} else {
+		QTextStream in(&fp);
+		int success = 0, fail = 0;
+		while (!in.atEnd()) {
+			string id = in.readLine().toStdString();
+			if (rm->checkUsername(id)) {
+				if (!rm->studentExist(id)) {
+					rm->addStudent(id, "123456");
+				}
+				success++;
+			} else {
+				fail++;
+			}
+		}
+		QMessageBox::information(this, "Confirm", QString(QString::fromLocal8Bit("共导入%1个，成功%2个，失败%3个")).arg(success + fail).arg(success).arg(fail));
+	}
 }
 
 void AdminMainWidget::closeEvent(QCloseEvent* event) {

@@ -17,6 +17,8 @@ public:
 	bool loginSuccess(string username, string password);
 	//更改密码
 	bool changePassword(string username, string password);
+	//判断学生id是否合法
+	bool checkUsername(string username);
 
 private:
 	//存储学生id和密码

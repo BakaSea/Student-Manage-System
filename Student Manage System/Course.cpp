@@ -48,7 +48,8 @@ void Course::update() {
 		QJsonObject objStu;
 		objStu.insert("name", QJsonValue(QString::fromStdString(vecStu[i].id)));
 		objStu.insert("exempt", QJsonValue(mapExempt[vecStu[i].id]));
-		objStu.insert("score", QJsonValue(mapScore[vecStu[i].id]));
+		unordered_map<string, int>::iterator iter = mapScore.find(vecStu[i].id);
+		objStu.insert("score", QJsonValue(iter == mapScore.end() ? -1 : iter->second));
 		arrayStu.append(objStu);
 	}
 	for (int i = 0; i < vecAssist.size(); ++i) {
@@ -72,7 +73,7 @@ void Course::sync() {
 	init();
 	QFile fp(QString::fromStdString("./data/course/" + to_string(id) + ".json"));
 	if (!fp.open(QIODevice::ReadOnly)) {
-		qDebug() << "File open failed!";
+		update();
 		return;
 	}
 	QJsonDocument jdoc(QJsonDocument::fromJson(fp.readAll()));
@@ -81,10 +82,13 @@ void Course::sync() {
 	QJsonArray arrayStu = obj.value("student").toArray(), arrayAssist = obj.value("assistant").toArray();
 	for (int i = 0; i < arrayStu.size(); ++i) {
 		QJsonObject objStu = arrayStu.at(i).toObject();
-		Student student = Student(obj.value("name").toString().toStdString());
+		Student student = Student(objStu.value("name").toString().toStdString());
 		vecStu.push_back(student);
 		mapExempt[student.id] = objStu.value("exempt").toBool();
-		mapScore[student.id] = objStu.value("score").toInt();
+		int score = objStu.value("score").toInt();
+		if (score != -1) {
+			mapScore[student.id] = score;
+		}
 	}
 	for (int i = 0; i < arrayAssist.size(); ++i) {
 		QJsonObject objAStu = arrayAssist.at(i).toObject();
@@ -199,10 +203,11 @@ void Course::setExempt(Student student, bool exempt) {
 	} else {
 		mapExempt.erase(student.id);
 	}
+	update();
 }
 
 bool Course::isExempt(Student student) {
-	return mapExempt.find(student.id) != mapExempt.end();
+	return mapExempt[student.id];
 }
 
 vector<Student> Course::getExemptStudent() {
@@ -216,11 +221,12 @@ vector<Student> Course::getExemptStudent() {
 
 void Course::setScore(Student student, int score) {
 	mapScore[student.id] = score;
+	update();
 }
 
 int Course::getScore(Student student) {
 	unordered_map<string, int>::iterator iter = mapScore.find(student.id);
-	return iter == mapScore.end() ? 0 : iter->second;
+	return iter == mapScore.end() ? -1 : iter->second;
 }
 
 void Course::init() {
