@@ -21,8 +21,6 @@ public:
 	~CourseWidget();
 	//将课程信息同步到表格
 	void syncTable();
-	//管理所有课程信息
-	CourseManager* cm;
 
 protected slots:
 	//增加课程
@@ -45,6 +43,8 @@ private:
 	Ui::CourseWidget ui;
 	vector<QWidget*> childWidget;
 	RegistryManager* rm;
+	//管理所有课程信息
+	CourseManager* cm;
 	//同步课程信息
 	void syncCourse();
 	//用户类型

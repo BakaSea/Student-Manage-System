@@ -12,12 +12,12 @@ class ViewAssistantWidget : public QWidget
 	Q_OBJECT
 
 public:
-	ViewAssistantWidget(Course course, Student assistant, QWidget *parent = Q_NULLPTR);
+	ViewAssistantWidget(Course *course, Student assistant, QWidget *parent = Q_NULLPTR);
 	~ViewAssistantWidget();
 
 private:
 	Ui::ViewAssistantWidget ui;
-	Course course;
+	Course *course;
 	Student assistant;
 	vector<Student> vecAStudent;
 };

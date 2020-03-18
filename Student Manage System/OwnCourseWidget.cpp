@@ -22,30 +22,32 @@ void OwnCourseWidget::syncTable() {
 	ui.tableCourse->setRowCount(vecCourse.size());
 	int spec = 0, nonspec = 0;
 	for (int i = 0; i < vecCourse.size(); ++i) {
-		Course course = cm->getCourseByID(vecCourse[i].first);
-		ui.tableCourse->setItem(i, 0, new QTableWidgetItem(QString("%1").arg(course.id, 3, 10, QChar('0'))));
-		ui.tableCourse->setItem(i, 1, new QTableWidgetItem(QString::fromLocal8Bit(course.name.c_str())));
-		ui.tableCourse->setItem(i, 2, new QTableWidgetItem(QString::fromLocal8Bit(course.teacher.c_str())));
-		ui.tableCourse->setItem(i, 3, new QTableWidgetItem(QString::fromLocal8Bit(course.getTypeName().c_str())));
-		if (course.type == Course::SPEC) {
+		Course *course = cm->getCourseByID(vecCourse[i].first);
+		ui.tableCourse->setItem(i, 0, new QTableWidgetItem(QString("%1").arg(course->id, 3, 10, QChar('0'))));
+		ui.tableCourse->setItem(i, 1, new QTableWidgetItem(QString::fromLocal8Bit(course->name.c_str())));
+		ui.tableCourse->setItem(i, 2, new QTableWidgetItem(QString::fromLocal8Bit(course->teacher.c_str())));
+		ui.tableCourse->setItem(i, 3, new QTableWidgetItem(QString::fromLocal8Bit(course->getTypeName().c_str())));
+		if (course->type == Course::SPEC) {
 			spec++;
 		} else {
 			nonspec++;
 		}
 		if (vecCourse[i].second.id != "Null") {
-			if (course.containAssistant(vecCourse[i].second)) {
+			if (course->containAssistant(vecCourse[i].second)) {
 				ui.tableCourse->setItem(i, 4, new QTableWidgetItem(QString::fromLocal8Bit(vecCourse[i].second.id.c_str())));
 			} else {
-				QMessageBox::warning(this, "Warning", QString::fromLocal8Bit((course.name + "的助教" + vecCourse[i].second.id + "已退课！").c_str()));
+				QMessageBox::warning(this, "Warning", QString::fromLocal8Bit((course->name + "的助教" + vecCourse[i].second.id + "已退课！").c_str()));
 				student->deleteAssistant(vecCourse[i].first);
 			}
 		}
-		ui.tableCourse->setItem(i, 5, new QTableWidgetItem(course.isExempt(*student) ? QString::fromLocal8Bit("是") : QString::fromLocal8Bit("否")));
-		int score = course.getScore(*student);
+		ui.tableCourse->setItem(i, 5, new QTableWidgetItem(course->isExempt(*student) ? QString::fromLocal8Bit("是") : QString::fromLocal8Bit("否")));
+		int score = course->getScore(*student);
 		ui.tableCourse->setItem(i, 6, new QTableWidgetItem(score == -1 ? QString::fromLocal8Bit("未录入") : QString::number(score)));
 		QTableWidgetItem* check = new QTableWidgetItem();
 		check->setCheckState(Qt::Unchecked);
 		ui.tableCourse->setItem(i, 7, check);
+		course = NULL;
+		delete course;
 	}
 	if (spec < 4 || nonspec < 2) {
 		ui.labelWarning->setStyleSheet("color:red");
@@ -58,7 +60,7 @@ void OwnCourseWidget::dropCourse() {
 	for (int i = 0, j = 0; j < vecCourse.size(); ++i, ++j) {
 		if (ui.tableCourse->item(i, 7)->checkState() == Qt::Checked) {
 			if (vecCourse[j].second.id != "Null") {
-				cm->deleteStudentToAssistant(vecCourse[j].first, vecCourse[j].second, *student);
+				cm->getCourseByID(vecCourse[j].first)->deleteStudentToAssistant(vecCourse[j].second, *student);
 			}
 			student->deleteCourse(vecCourse[j].first);
 			cm->deleteStudent(vecCourse[j].first, *student);

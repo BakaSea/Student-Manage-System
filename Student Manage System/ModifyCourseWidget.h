@@ -3,12 +3,13 @@
 #include <QWidget>
 #include "ui_ModifyCourseWidget.h"
 #include "CourseWidget.h"
+#include "CourseManager.h"
 
 class ModifyCourseWidget : public QWidget {
 	Q_OBJECT
 
 public:
-	ModifyCourseWidget(CourseWidget *father, int index, QWidget *parent = Q_NULLPTR);
+	ModifyCourseWidget(CourseWidget *father, CourseManager *cm, int index, QWidget *parent = Q_NULLPTR);
 	~ModifyCourseWidget();
 
 protected slots:
@@ -18,5 +19,6 @@ protected slots:
 private:
 	Ui::ModifyCourseWidget ui;
 	CourseWidget* father;
+	CourseManager* cm;
 	int index;
 };

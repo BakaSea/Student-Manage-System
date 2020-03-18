@@ -7,6 +7,7 @@
 #include "Student.h"
 #include "ViewCourseWidget.h"
 #include "CourseWidget.h"
+#include "Course.h"
 
 class AddStudentWidget : public QWidget {
 	Q_OBJECT
@@ -25,6 +26,7 @@ private:
 	RegistryManager* rm;
 	ViewCourseWidget* father;
 	CourseWidget* grandFather;
+	Course* course;
 	int index;
 	//存储学生信息
 	vector<Student> vecStu;

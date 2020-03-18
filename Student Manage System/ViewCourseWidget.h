@@ -3,8 +3,8 @@
 #include <QWidget>
 #include "ui_ViewCourseWidget.h"
 #include "RegistryManager.h"
-#include "CourseManager.h"
 #include "Course.h"
+#include "CourseManager.h"
 #include "CourseWidget.h"
 
 class ViewCourseWidget : public QWidget {
@@ -35,6 +35,6 @@ private:
 	RegistryManager* rm;
 	CourseManager* cm;
 	CourseWidget* father;
+	Course* course;
 	int index;
-	Course course;
 };

@@ -2,9 +2,10 @@
 
 #include <QWidget>
 #include "ui_AssistantWidget.h"
-#include "CourseManager.h"
 #include "Student.h"
 #include "OwnCourseWidget.h"
+#include "Course.h"
+#include "CourseManager.h"
 using namespace std;
 
 class AssistantWidget : public QWidget {
@@ -25,11 +26,10 @@ protected slots:
 private:
 	string ENROLL_STR = "报名助教", UNENROLL_STR = "取消报名";
 	Ui::AssistantWidget ui;
-	CourseManager* cm;
 	Student* student;
-	Course course;
+	CourseManager* cm;
+	Course* course;
 	OwnCourseWidget* father;
-	//当前课程
 	int id;
 	//同步到列表
 	void syncList();

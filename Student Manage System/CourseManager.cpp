@@ -13,20 +13,20 @@ CourseManager::~CourseManager() {
 	vecCourse.clear();
 }
 
-Course CourseManager::getCourse(int index) {
+Course* CourseManager::getCourse(int index) {
 	return vecCourse[index];
 }
 
-Course CourseManager::getCourseByID(int id) {
+Course* CourseManager::getCourseByID(int id) {
 	for (int i = 0; i < vecCourse.size(); ++i) {
-		if (vecCourse[i].id == id) {
+		if (vecCourse[i]->id == id) {
 			return vecCourse[i];
 		}
 	}
-	return Course();
+	return new Course();
 }
 
-void CourseManager::addCourse(Course course) {
+void CourseManager::addCourse(Course* course) {
 	vecCourse.push_back(course);
 	update();
 }
@@ -37,8 +37,8 @@ void CourseManager::deleteCourse(int index) {
 }
 
 void CourseManager::modifyCourse(int index, string teacher, int cap) {
-	vecCourse[index].teacher = teacher;
-	vecCourse[index].cap = cap;
+	vecCourse[index]->teacher = teacher;
+	vecCourse[index]->cap = cap;
 	update();
 }
 
@@ -51,18 +51,18 @@ bool CourseManager::empty() {
 }
 
 void CourseManager::addStudent(int index, Student student) {
-	vecCourse[index].addStudent(student);
+	vecCourse[index]->addStudent(student);
 	update();
 }
 
 void CourseManager::deleteStudent(int id, Student student) {
 	for (int i = 0; i < vecCourse.size(); ++i) {
-		if (vecCourse[i].id == id) {
-			if (vecCourse[i].containAssistant(student)) {
-				vecCourse[i].deleteAssistant(student);
+		if (vecCourse[i]->id == id) {
+			if (vecCourse[i]->containAssistant(student)) {
+				vecCourse[i]->deleteAssistant(student);
 				updateAssistant();
 			}
-			vecCourse[i].deleteStudent(student);
+			vecCourse[i]->deleteStudent(student);
 			break;
 		}
 	}
@@ -71,8 +71,8 @@ void CourseManager::deleteStudent(int id, Student student) {
 
 void CourseManager::addAssistant(int id, Student student) {
 	for (int i = 0; i < vecCourse.size(); ++i) {
-		if (vecCourse[i].id == id) {
-			vecCourse[i].addAssistant(student);
+		if (vecCourse[i]->id == id) {
+			vecCourse[i]->addAssistant(student);
 			break;
 		}
 	}
@@ -81,61 +81,12 @@ void CourseManager::addAssistant(int id, Student student) {
 
 void CourseManager::deleteAssistant(int id, Student student) {
 	for (int i = 0; i < vecCourse.size(); ++i) {
-		if (vecCourse[i].id == id) {
-			vecCourse[i].deleteAssistant(student);
+		if (vecCourse[i]->id == id) {
+			vecCourse[i]->deleteAssistant(student);
 			break;
 		}
 	}
 	updateAssistant();
-}
-
-void CourseManager::addStudentToAssistant(int id, Student assistant, Student student) {
-	for (int i = 0; i < vecCourse.size(); ++i) {
-		if (vecCourse[i].id == id) {
-			vecCourse[i].addStudentToAssistant(assistant, student);
-			break;
-		}
-	}
-}
-
-void CourseManager::deleteStudentToAssistant(int id, Student assistant, Student student) {
-	for (int i = 0; i < vecCourse.size(); ++i) {
-		if (vecCourse[i].id == id) {
-			vecCourse[i].deleteStudentToAssistant(assistant, student);
-			break;
-		}
-	}
-}
-
-void CourseManager::setExempt(int id, Student student, bool exempt) {
-	for (int i = 0; i < vecCourse.size(); ++i) {
-		if (vecCourse[i].id == id) {
-			vecCourse[i].setExempt(student, exempt);
-			break;
-		}
-	}
-}
-
-bool CourseManager::isExempt(int id, Student student) {
-	for (int i = 0; i < vecCourse.size(); ++i) {
-		if (vecCourse[i].id == id) {
-			return vecCourse[i].isExempt(student);
-		}
-	}
-	return false;
-}
-
-void CourseManager::setScore(int index, Student student, int score) {
-	vecCourse[index].setScore(student, score);
-}
-
-int CourseManager::getScore(int id, Student student) {
-	for (int i = 0; i < vecCourse.size(); ++i) {
-		if (vecCourse[i].id == id) {
-			return vecCourse[i].getScore(student);
-		}
-	}
-	return -1;
 }
 
 void CourseManager::update() {
@@ -154,9 +105,9 @@ void CourseManager::update() {
 	QTextStream out(&fp);
 	out.setCodec("UTF-8");
 	for (int i = 0; i < vecCourse.size(); ++i) {
-		out << QString("%1").arg(vecCourse[i].id, 3, 10, QChar('0')) << "\t" << QString::fromLocal8Bit(vecCourse[i].name.c_str()) << "\t"
-			<< QString::fromLocal8Bit(vecCourse[i].teacher.c_str()) << "\t" << QString::number(vecCourse[i].cap) << "\t"
-			<< QString::number(vecCourse[i].getCnt()) << "\t" << QString::fromLocal8Bit(vecCourse[i].getTypeName().c_str()) << endl;
+		out << QString("%1").arg(vecCourse[i]->id, 3, 10, QChar('0')) << "\t" << QString::fromLocal8Bit(vecCourse[i]->name.c_str()) << "\t"
+			<< QString::fromLocal8Bit(vecCourse[i]->teacher.c_str()) << "\t" << QString::number(vecCourse[i]->cap) << "\t"
+			<< QString::number(vecCourse[i]->getCnt()) << "\t" << QString::fromLocal8Bit(vecCourse[i]->getTypeName().c_str()) << endl;
 	}
 	fp.close();
 }
@@ -177,11 +128,11 @@ void CourseManager::updateAssistant() {
 	QTextStream out(&fp);
 	out.setCodec("UTF-8");
 	for (int i = 0; i < vecCourse.size(); ++i) {
-		if (vecCourse[i].assistSize()) {
-			out << QString("%1").arg(vecCourse[i].id, 3, 10, QChar('0')) << "\t";
-			for (int j = 0; j < vecCourse[i].assistSize(); ++j) {
-				out << QString::fromStdString(vecCourse[i].getAssistant(j).id);
-				if (j == vecCourse[i].assistSize() - 1) {
+		if (vecCourse[i]->assistSize()) {
+			out << QString("%1").arg(vecCourse[i]->id, 3, 10, QChar('0')) << "\t";
+			for (int j = 0; j < vecCourse[i]->assistSize(); ++j) {
+				out << QString::fromStdString(vecCourse[i]->getAssistant(j).id);
+				if (j == vecCourse[i]->assistSize() - 1) {
 					 out << endl;
 				} else {
 					out << ",";
@@ -211,8 +162,8 @@ void CourseManager::sync() {
 		cap = lineList[3].toInt();
 		cnt = lineList[4].toInt();
 		type = lineList[5].toLocal8Bit().toStdString();
-		Course course = Course(id, name, teacher, cap, cnt, Course::getTypebyName(type));
-		course.sync();
+		Course *course = new Course(id, name, teacher, cap, cnt, Course::getTypebyName(type));
+		course->sync();
 		vecCourse.push_back(course);
 	}
 	fp.close();

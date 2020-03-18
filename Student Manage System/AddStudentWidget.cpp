@@ -7,6 +7,7 @@ using namespace std;
 AddStudentWidget::AddStudentWidget(CourseManager *cm, int index, RegistryManager *rm, ViewCourseWidget *father, CourseWidget *grandFather, QWidget *parent)
 	: cm(cm), index(index), rm(rm), father(father), grandFather(grandFather), QWidget(parent) {
 	ui.setupUi(this);
+	course = cm->getCourse(index);
 	syncTable();
 }
 
@@ -14,6 +15,8 @@ AddStudentWidget::~AddStudentWidget() {
 	cm = NULL;
 	delete cm;
 	rm = NULL;
+	delete rm;
+	course = NULL;
 	delete rm;
 	father = NULL;
 	delete father;
@@ -25,7 +28,7 @@ void AddStudentWidget::syncTable() {
 	vector<Student> originStu = rm->getVector();
 	vecStu.clear();
 	for (int i = 0; i < originStu.size(); ++i) {
-		if (!cm->getCourse(index).containStudent(originStu[i])) {
+		if (!course->containStudent(originStu[i])) {
 			vecStu.push_back(originStu[i]);
 		}
 	}
@@ -41,7 +44,7 @@ void AddStudentWidget::syncTable() {
 
 
 void AddStudentWidget::confirm() {
-	int cnt = cm->getCourse(index).getCnt();
+	int cnt = course->getCnt();
 	for (int i = 0; i < ui.tableStudent->rowCount(); ++i) {
 		if (ui.tableStudent->item(i, 1)->checkState() == Qt::Checked) {
 			cnt++;
@@ -49,17 +52,17 @@ void AddStudentWidget::confirm() {
 	}
 	for (int i = 0; i < ui.tableStudent->rowCount(); ++i) {
 		if (ui.tableStudent->item(i, 1)->checkState() == Qt::Checked) {
-			if (cnt > cm->getCourse(index).cap) {
+			if (cnt > course->cap) {
 				ui.tableStudent->item(i, 1)->setCheckState(Qt::Unchecked);
 			} else {
 				cm->addStudent(index, vecStu[i]);
 				vecStu[i].sync();
-				vecStu[i].addCourse(cm->getCourse(index).id);
+				vecStu[i].addCourse(course->id);
 				vecStu[i].update();
 			}
 		}
 	}
-	if (cnt > cm->getCourse(index).cap) {
+	if (cnt > course->cap) {
 		QMessageBox::warning(this, "Warning", QString::fromLocal8Bit("选择的人数大于上限人数！"));
 	} else {
 		QMessageBox::information(this, "Confirm", QString::fromLocal8Bit("添加成功！"));
