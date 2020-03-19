@@ -3,10 +3,10 @@
 #include "AssistantWidget.h"
 #include "qmessagebox.h"
 
-OwnCourseWidget::OwnCourseWidget(Student *student, QWidget *parent)
-	: student(student), QWidget(parent) {
+OwnCourseWidget::OwnCourseWidget(Student *student, RegistryManager *rm, QWidget *parent)
+	: student(student), rm(rm), QWidget(parent) {
 	ui.setupUi(this);
-	cm = new CourseManager();
+	cm = new CourseManager(rm);
 	syncCourse();
 }
 
@@ -15,6 +15,8 @@ OwnCourseWidget::~OwnCourseWidget() {
 	delete cm;
 	student = NULL;
 	delete student;
+	rm = NULL;
+	delete rm;
 }
 
 void OwnCourseWidget::syncTable() {
@@ -40,8 +42,8 @@ void OwnCourseWidget::syncTable() {
 				student->deleteAssistant(vecCourse[i].first);
 			}
 		}
-		ui.tableCourse->setItem(i, 5, new QTableWidgetItem(course->isExempt(*student) ? QString::fromLocal8Bit("是") : QString::fromLocal8Bit("否")));
-		int score = course->getScore(*student);
+		ui.tableCourse->setItem(i, 5, new QTableWidgetItem(student->isExempt(course->id) ? QString::fromLocal8Bit("是") : QString::fromLocal8Bit("否")));
+		int score = student->getScore(course->id);
 		ui.tableCourse->setItem(i, 6, new QTableWidgetItem(score == -1 ? QString::fromLocal8Bit("未录入") : QString::number(score)));
 		QTableWidgetItem* check = new QTableWidgetItem();
 		check->setCheckState(Qt::Unchecked);

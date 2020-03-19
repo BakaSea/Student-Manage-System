@@ -7,6 +7,7 @@ StudentMainWidget::StudentMainWidget(LoginWidget *father, Student student, Regis
 	: father(father), rm(rm), QWidget(parent) {
 	ui.setupUi(this);
 	this->student = new Student(student.id);
+	this->student->sync();
 }
 
 StudentMainWidget::~StudentMainWidget() {
@@ -30,13 +31,13 @@ void StudentMainWidget::logout() {
 }
 
 void StudentMainWidget::viewCourse() {
-	CourseWidget* cw = new CourseWidget(CourseWidget::STUDENT, student);
+	CourseWidget* cw = new CourseWidget(CourseWidget::STUDENT, student, rm);
 	childWidget.push_back(cw);
 	cw->show();
 }
 
 void StudentMainWidget::viewOwnCourse() {
-	OwnCourseWidget* ocw = new OwnCourseWidget(student);
+	OwnCourseWidget* ocw = new OwnCourseWidget(student, rm);
 	childWidget.push_back(ocw);
 	ocw->show();
 }

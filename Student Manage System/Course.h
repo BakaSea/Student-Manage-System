@@ -19,10 +19,6 @@ public:
 	string getTypeName();
 	static CourseType getTypebyName(string type);
 	static CourseType getTypebyIndex(int index);
-	//将课程写入到文件中
-	void update();
-	//从文件中同步课程
-	void sync();
 	//获取已选人数
 	int getCnt();
 	//判断是否已满

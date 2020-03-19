@@ -31,7 +31,6 @@ void AddCourseWidget::confirm() {
 		ui.labelWarning->setStyleSheet("color:red");
 		ui.labelWarning->setText(QString::fromLocal8Bit("上限人数不能为0！"));
 	} else {
-		newCourse->update();
 		cm->addCourse(newCourse);
 		father->syncTable();
 		this->close();

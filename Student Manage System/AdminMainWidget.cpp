@@ -37,10 +37,11 @@ void AdminMainWidget::inputCourse() {
 		if (!dir.exists("./data/course")) {
 			dir.mkdir("./data/course");
 		}
-		QFile fp2("./data/course/currentcourse.txt");
-		if (!fp2.open(QIODevice::WriteOnly)) {
+		QFile fp2("./data/course/currentcourse.txt"), fp3("./data/course/assistant.txt");
+		if (!fp2.open(QIODevice::WriteOnly) || !fp3.open(QIODevice::WriteOnly)) {
 			QMessageBox::critical(this, "Error", QString::fromLocal8Bit("录入失败！"));
 		} else {
+			fp3.close();
 			//文件编码转化
 			QByteArray originText = fp1.readAll();
 			QTextCodec::ConverterState state;

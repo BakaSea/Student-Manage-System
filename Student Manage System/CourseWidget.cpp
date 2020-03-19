@@ -10,7 +10,7 @@
 CourseWidget::CourseWidget(UserType userType, RegistryManager *rm, QWidget *parent)
 	: userType(userType), rm(rm), QWidget(parent) {
 	ui.setupUi(this);
-	cm = new CourseManager();
+	cm = new CourseManager(rm);
 	syncCourse();
 	ui.btnAddCourse->setVisible(true);
 	ui.btnDeleteCourse->setVisible(true);
@@ -18,10 +18,10 @@ CourseWidget::CourseWidget(UserType userType, RegistryManager *rm, QWidget *pare
 	ui.btnSelectCourse->setVisible(false);
 }
 
-CourseWidget::CourseWidget(UserType userType, Student *student, QWidget* parent)
+CourseWidget::CourseWidget(UserType userType, Student *student, RegistryManager *rm, QWidget* parent)
 	: userType(userType), student(student), QWidget(parent) {
 	ui.setupUi(this);
-	cm = new CourseManager();
+	cm = new CourseManager(rm);
 	syncCourse();
 	ui.btnSelectCourse->setVisible(true);
 	ui.btnAddCourse->setVisible(false);
@@ -31,11 +31,11 @@ CourseWidget::CourseWidget(UserType userType, Student *student, QWidget* parent)
 
 CourseWidget::~CourseWidget() {
 	childWidget.clear();
-	rm = NULL;
-	delete rm;
 	delete cm;
 	student = NULL;
 	delete student;
+	rm = NULL;
+	delete rm;
 }
 
 void CourseWidget::addCourse() {

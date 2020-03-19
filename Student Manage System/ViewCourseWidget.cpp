@@ -36,13 +36,16 @@ void ViewCourseWidget::inputScore() {
 		while (!in.atEnd()) {
 			QStringList lineList = in.readLine().split(',');
 			Student student = Student(lineList[0].toStdString());
+			student.sync();
 			int score = lineList[1].toInt();
 			if (course->containStudent(student) && 0 <= score && score <= 100) {
 				course->setScore(student, score);
+				student.setScore(course->id, score);
 				success++;
 			} else {
 				fail++;
 			}
+			student.update();
 		}
 		fp.close();
 		QMessageBox::information(this, "Confirm", QString(QString::fromLocal8Bit("共导入%1个，成功%2个，失败%3个")).arg(success + fail).arg(success).arg(fail));

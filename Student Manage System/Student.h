@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <unordered_map>
 using namespace std;
 
 class Student {
@@ -29,6 +30,14 @@ public:
 	void deleteAssistant(int id);
 	//获取课程ID为id的课程的个人选择的助教
 	Student getAssistant(int id);
+	//设置免修不免考
+	void setExempt(int id, bool exempt);
+	//判断是否免修不免考
+	bool isExempt(int id);
+	//设置成绩
+	void setScore(int id, int score);
+	//获取成绩
+	int getScore(int id);
 	//从文件中同步学生信息
 	void sync();
 	//将学生信息写入到文件中
@@ -36,4 +45,6 @@ public:
 private:
 	//存储课程ID和个人选择的助教
 	map<int, Student> mapCA;
+	unordered_map<int, bool> mapExempt;
+	unordered_map<int, int> mapScore;
 };

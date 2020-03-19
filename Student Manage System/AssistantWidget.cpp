@@ -44,7 +44,9 @@ void AssistantWidget::selectAssistant() {
 }
 
 void AssistantWidget::changeExempt() {
-	course->setExempt(*student, course->isExempt(*student) ^ 1);
+	bool exempt = student->isExempt(course->id) ^ 1;
+	student->setExempt(course->id, exempt);
+	course->setExempt(*student, exempt);
 	syncList();
 	father->syncCourse();
 }

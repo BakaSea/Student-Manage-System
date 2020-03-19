@@ -17,7 +17,7 @@ public:
 	//管理员登录
 	CourseWidget(UserType userType, RegistryManager *rm, QWidget *parent = Q_NULLPTR);
 	//学生登录
-	CourseWidget(UserType userType, Student *student, QWidget* parent = Q_NULLPTR);
+	CourseWidget(UserType userType, Student *student, RegistryManager *rm, QWidget* parent = Q_NULLPTR);
 	~CourseWidget();
 	//将课程信息同步到表格
 	void syncTable();

@@ -2,9 +2,6 @@
 #include <qdebug.h>
 #include <qdir.h>
 #include <qfile.h>
-#include <qjsondocument.h>
-#include <qjsonobject.h>
-#include <qjsonarray.h>
 #include <qiodevice.h>
 
 Course::Course() : id(0), name(""), teacher(""), cap(0), type(SPEC) {
@@ -28,81 +25,6 @@ Course::CourseType Course::getTypebyIndex(int index) {
 	return index ? NONSPEC : SPEC;
 }
 
-void Course::update() {
-	//用json存储信息
-	QDir dir;
-	if (!dir.exists("./data")) {
-		dir.mkdir("./data");
-	}
-	if (!dir.exists("./data/course")) {
-		dir.mkdir("./data/course");
-	}
-	QFile fp(QString::fromStdString("./data/course/" + to_string(id) + ".json"));
-	if (!fp.open(QIODevice::WriteOnly)) {
-		qDebug() << "File open failed!";
-		return;
-	}
-	QJsonObject obj;
-	QJsonArray arrayStu, arrayAssist;
-	for (int i = 0; i < vecStu.size(); ++i) {
-		QJsonObject objStu;
-		objStu.insert("name", QJsonValue(QString::fromStdString(vecStu[i].id)));
-		objStu.insert("exempt", QJsonValue(mapExempt[vecStu[i].id]));
-		unordered_map<string, int>::iterator iter = mapScore.find(vecStu[i].id);
-		objStu.insert("score", QJsonValue(iter == mapScore.end() ? -1 : iter->second));
-		arrayStu.append(objStu);
-	}
-	for (int i = 0; i < vecAssist.size(); ++i) {
-		QJsonArray arrayAStu;
-		for (int j = 0; j < vecAStu[i].size(); ++j) {
-			arrayAStu.append(QJsonValue(QString::fromStdString(vecAStu[i][j].id)));
-		}
-		QJsonObject objAStu;
-		objAStu.insert(QString::fromStdString(vecAssist[i].id), arrayAStu);
-		arrayAssist.append(objAStu);
-	}
-	obj.insert("student", arrayStu);
-	obj.insert("assistant", arrayAssist);
-	QJsonDocument jdoc(obj);
-	fp.write(jdoc.toJson());
-	fp.close();
-}
-
-void Course::sync() {
-	//从json中读入
-	init();
-	QFile fp(QString::fromStdString("./data/course/" + to_string(id) + ".json"));
-	if (!fp.open(QIODevice::ReadOnly)) {
-		update();
-		return;
-	}
-	QJsonDocument jdoc(QJsonDocument::fromJson(fp.readAll()));
-	fp.close();
-	QJsonObject obj = jdoc.object();
-	QJsonArray arrayStu = obj.value("student").toArray(), arrayAssist = obj.value("assistant").toArray();
-	for (int i = 0; i < arrayStu.size(); ++i) {
-		QJsonObject objStu = arrayStu.at(i).toObject();
-		Student student = Student(objStu.value("name").toString().toStdString());
-		vecStu.push_back(student);
-		mapExempt[student.id] = objStu.value("exempt").toBool();
-		int score = objStu.value("score").toInt();
-		if (score != -1) {
-			mapScore[student.id] = score;
-		}
-	}
-	for (int i = 0; i < arrayAssist.size(); ++i) {
-		QJsonObject objAStu = arrayAssist.at(i).toObject();
-		Student assistant = Student(objAStu.keys()[0].toStdString());
-		vecAssist.push_back(assistant);
-		vecAStu.push_back(vector<Student>());
-		QJsonArray arrayAStu = objAStu.value(objAStu.keys()[0]).toArray();
-		for (int j = 0; j < arrayAStu.size(); ++j) {
-			Student student = Student(arrayAStu[j].toString().toStdString());
-			vecAStu[i].push_back(student);
-		}
-	}
-}
-
 int Course::getCnt() {
 	return vecStu.size();
 }
@@ -113,7 +35,7 @@ bool Course::full() {
 
 void Course::addStudent(Student student) {
 	vecStu.push_back(student);
-	update();
+	mapExempt[student.id] = false;
 }
 
 void Course::deleteStudent(Student student) {
@@ -123,13 +45,11 @@ void Course::deleteStudent(Student student) {
 			break;
 		}
 	}
-	update();
 }
 
 void Course::addAssistant(Student student) {
 	vecAssist.push_back(student);
 	vecAStu.push_back(vector<Student>());
-	update();
 }
 
 void Course::deleteAssistant(Student student) {
@@ -140,7 +60,6 @@ void Course::deleteAssistant(Student student) {
 			break;
 		}
 	}
-	update();
 }
 
 Student Course::getStudent(int index) {
@@ -174,7 +93,6 @@ void Course::addStudentToAssistant(Student assistant, Student student) {
 			vecAStu[i].push_back(student);
 		}
 	}
-	update();
 }
 
 void Course::deleteStudentToAssistant(Student assistant, Student student) {
@@ -189,7 +107,6 @@ void Course::deleteStudentToAssistant(Student assistant, Student student) {
 			break;
 		}
 	}
-	update();
 }
 
 vector<Student> Course::getAStudent(Student assistant) {
@@ -207,7 +124,6 @@ void Course::setExempt(Student student, bool exempt) {
 	} else {
 		mapExempt.erase(student.id);
 	}
-	update();
 }
 
 bool Course::isExempt(Student student) {
@@ -225,7 +141,6 @@ vector<Student> Course::getExemptStudent() {
 
 void Course::setScore(Student student, int score) {
 	mapScore[student.id] = score;
-	update();
 }
 
 int Course::getScore(Student student) {

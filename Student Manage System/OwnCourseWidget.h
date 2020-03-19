@@ -4,6 +4,7 @@
 #include "ui_OwnCourseWidget.h"
 #include "Student.h"
 #include "CourseManager.h"
+#include "RegistryManager.h"
 #include <vector>
 using namespace std;
 
@@ -11,7 +12,7 @@ class OwnCourseWidget : public QWidget {
 	Q_OBJECT
 
 public:
-	OwnCourseWidget(Student *student, QWidget *parent = Q_NULLPTR);
+	OwnCourseWidget(Student *student, RegistryManager *rm, QWidget *parent = Q_NULLPTR);
 	~OwnCourseWidget();
 	//同步课程
 	void syncCourse();
@@ -30,6 +31,7 @@ protected:
 private:
 	Ui::OwnCourseWidget ui;
 	vector<QWidget*> childWidget;
+	RegistryManager* rm;
 	//当前操作的学生
 	Student *student;
 	//管理课程信息

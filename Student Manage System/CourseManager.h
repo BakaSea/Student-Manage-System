@@ -1,11 +1,12 @@
 ﻿#pragma once
 #include "Course.h"
 #include <vector>
+#include "RegistryManager.h"
 using namespace std;
 
 class CourseManager {
 public:
-	CourseManager();
+	CourseManager(RegistryManager *rm);
 	~CourseManager();
 	//获取第index个课程
 	Course* getCourse(int index);
@@ -38,4 +39,5 @@ public:
 
 private:
 	vector<Course*> vecCourse;
+	RegistryManager* rm;
 };

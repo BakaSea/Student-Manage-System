@@ -5,12 +5,14 @@
 #include <qtextstream.h>
 #include <qdebug.h>
 
-CourseManager::CourseManager() {
+CourseManager::CourseManager(RegistryManager *rm) : rm(rm) {
 	vecCourse.clear();
 }
 
 CourseManager::~CourseManager() {
 	vecCourse.clear();
+	rm = NULL;
+	delete rm;
 }
 
 Course* CourseManager::getCourse(int index) {
@@ -145,17 +147,18 @@ void CourseManager::updateAssistant() {
 
 void CourseManager::sync() {
 	vecCourse.clear();
-	QFile fp("./data/course/currentcourse.txt");
-	if (!fp.open(QIODevice::ReadOnly)) {
+	//添加课程
+	QFile fpCourse("./data/course/currentcourse.txt");
+	if (!fpCourse.open(QIODevice::ReadOnly)) {
 		qDebug() << "File open failed";
 		return;
 	}
-	QTextStream in(&fp);
-	in.setCodec("UTF-8");
-	while (!in.atEnd()) {
+	QTextStream inCourse(&fpCourse);
+	inCourse.setCodec("UTF-8");
+	while (!inCourse.atEnd()) {
 		int id, cap, cnt;
 		string name, teacher, type;
-		QStringList lineList = in.readLine().split('\t');
+		QStringList lineList = inCourse.readLine().split('\t');
 		id = lineList[0].toInt();
 		name = lineList[1].toLocal8Bit().toStdString();
 		teacher = lineList[2].toLocal8Bit().toStdString();
@@ -163,8 +166,57 @@ void CourseManager::sync() {
 		cnt = lineList[4].toInt();
 		type = lineList[5].toLocal8Bit().toStdString();
 		Course *course = new Course(id, name, teacher, cap, cnt, Course::getTypebyName(type));
-		course->sync();
+		//course->sync();
 		vecCourse.push_back(course);
 	}
-	fp.close();
+	fpCourse.close();
+	QFile fpAssist("./data/course/assistant.txt");
+	if (!fpAssist.open(QIODevice::ReadOnly)) {
+		qDebug() << "File open failed";
+		return;
+	}
+	//添加助教
+	QTextStream inAssist(&fpAssist);
+	inAssist.setCodec("UTF-8");
+	while (!inAssist.atEnd()) {
+		QStringList lineList = inAssist.readLine().split('\t');
+		Course* course = getCourseByID(lineList[0].toInt());
+		QStringList assistList = lineList[1].split(',');
+		for (int i = 0; i < assistList.size(); ++i) {
+			course->addAssistant(Student(assistList[i].toStdString()));
+		}
+		course = NULL;
+		delete course;
+	}
+	fpAssist.close();
+	//添加学生
+	vector<Student> vecStudent = rm->getVector();
+	for (int i = 0; i < vecStudent.size(); ++i) {
+		QFile fpStudent(QString::fromStdString("./data/student/" + vecStudent[i].id + ".txt"));
+		if (!fpStudent.open(QIODevice::ReadOnly)) {
+			qDebug() << "File open failed";
+			return;
+		}
+		Student student = Student(vecStudent[i].id);
+		QTextStream inStudent(&fpStudent);
+		inStudent.setCodec("UTF-8");
+		while (!inStudent.atEnd()) {
+			QStringList lineList = inStudent.readLine().split('\t');
+			Course* course = getCourseByID(lineList[0].toInt());
+			string assistant = lineList[1].toStdString();
+			bool exempt = lineList[2].toInt();
+			int score = lineList[3].toInt();
+			course->addStudent(student);
+			if (assistant != "Null") {
+				course->addStudentToAssistant(Student(assistant), student);
+			}
+			course->setExempt(student, exempt);
+			if (score != -1) {
+				course->setScore(student, score);
+			}
+			course = NULL;
+			delete course;
+		}
+		fpStudent.close();
+	}
 }
