@@ -49,7 +49,10 @@ bool RegistryManager::loginSuccess(string username, string password) {
 }
 
 bool RegistryManager::changePassword(string username, string password) {
-	return addStudent(username, password);
+	QString pw;
+	pw.append(QCryptographicHash::hash(password.c_str(), QCryptographicHash::Md5).toHex());
+	mapStu[username] = pw.toStdString();
+	return update();
 }
 
 bool RegistryManager::checkUsername(string username) {

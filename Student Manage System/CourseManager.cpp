@@ -147,6 +147,7 @@ void CourseManager::updateAssistant() {
 
 void CourseManager::sync() {
 	vecCourse.clear();
+	vecOrder.clear();
 	//添加课程
 	QFile fpCourse("./data/course/currentcourse.txt");
 	if (!fpCourse.open(QIODevice::ReadOnly)) {
@@ -159,6 +160,9 @@ void CourseManager::sync() {
 		int id, cap, cnt;
 		string name, teacher, type;
 		QStringList lineList = inCourse.readLine().split('\t');
+		if (lineList.size() < 6) {
+			break;
+		}
 		id = lineList[0].toInt();
 		name = lineList[1].toLocal8Bit().toStdString();
 		teacher = lineList[2].toLocal8Bit().toStdString();
@@ -166,20 +170,26 @@ void CourseManager::sync() {
 		cnt = lineList[4].toInt();
 		type = lineList[5].toLocal8Bit().toStdString();
 		Course *course = new Course(id, name, teacher, cap, cnt, Course::getTypebyName(type));
-		//course->sync();
 		vecCourse.push_back(course);
 	}
 	fpCourse.close();
+	vecOrder = vector<int>(vecCourse[vecCourse.size() - 1]->id + 1);
+	for (int i = 0; i < vecCourse.size(); ++i) {
+		vecOrder[vecCourse[i]->id] = i;
+	}
+	//添加助教
 	QFile fpAssist("./data/course/assistant.txt");
 	if (!fpAssist.open(QIODevice::ReadOnly)) {
 		qDebug() << "File open failed";
 		return;
 	}
-	//添加助教
 	QTextStream inAssist(&fpAssist);
 	inAssist.setCodec("UTF-8");
 	while (!inAssist.atEnd()) {
 		QStringList lineList = inAssist.readLine().split('\t');
+		if (lineList.size() < 2) {
+			break;
+		}
 		Course* course = getCourseByID(lineList[0].toInt());
 		QStringList assistList = lineList[1].split(',');
 		for (int i = 0; i < assistList.size(); ++i) {
@@ -202,7 +212,10 @@ void CourseManager::sync() {
 		inStudent.setCodec("UTF-8");
 		while (!inStudent.atEnd()) {
 			QStringList lineList = inStudent.readLine().split('\t');
-			Course* course = getCourseByID(lineList[0].toInt());
+			if (lineList.size() < 4) {
+				break;
+			}
+			Course* course = vecCourse[vecOrder[lineList[0].toInt()]];
 			string assistant = lineList[1].toStdString();
 			bool exempt = lineList[2].toInt();
 			int score = lineList[3].toInt();

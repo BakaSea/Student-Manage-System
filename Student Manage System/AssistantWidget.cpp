@@ -30,7 +30,7 @@ void AssistantWidget::enrollAssistant() {
 
 void AssistantWidget::selectAssistant() {
 	if (ui.listStudent->currentRow() == -1) {
-		QMessageBox::warning(this, "Warning", QString::fromLocal8Bit("未选择课程！"));
+		QMessageBox::warning(this, "Warning", QString::fromLocal8Bit("未选择助教！"));
 		return;
 	}
 	if (course->getAssistant(ui.listStudent->currentRow()) == *student) {

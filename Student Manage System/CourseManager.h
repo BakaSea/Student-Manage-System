@@ -39,5 +39,6 @@ public:
 
 private:
 	vector<Course*> vecCourse;
+	vector<int> vecOrder;
 	RegistryManager* rm;
 };

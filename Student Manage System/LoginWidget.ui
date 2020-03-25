@@ -100,7 +100,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>管理员登陆</string>
+    <string>管理员登录</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineUsername">

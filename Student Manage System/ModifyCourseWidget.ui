@@ -129,9 +129,9 @@
   <widget class="QLabel" name="labelWarning">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>300</x>
      <y>10</y>
-     <width>111</width>
+     <width>121</width>
      <height>21</height>
     </rect>
    </property>

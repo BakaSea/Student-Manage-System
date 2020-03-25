@@ -45,6 +45,8 @@ public:
 private:
 	//存储课程ID和个人选择的助教
 	map<int, Student> mapCA;
+	//存储课程ID对应的免修不免考信息
 	unordered_map<int, bool> mapExempt;
+	//存储课程ID对应的成绩信息
 	unordered_map<int, int> mapScore;
 };

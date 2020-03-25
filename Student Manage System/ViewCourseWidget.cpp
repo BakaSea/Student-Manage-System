@@ -35,17 +35,21 @@ void ViewCourseWidget::inputScore() {
 		int success = 0, fail = 0;
 		while (!in.atEnd()) {
 			QStringList lineList = in.readLine().split(',');
-			Student student = Student(lineList[0].toStdString());
-			student.sync();
-			int score = lineList[1].toInt();
-			if (course->containStudent(student) && 0 <= score && score <= 100) {
-				course->setScore(student, score);
-				student.setScore(course->id, score);
-				success++;
+			if (lineList.size() >= 2) {
+				Student student = Student(lineList[0].toStdString());
+				int score = lineList[1].toInt();
+				if (course->containStudent(student) && 0 <= score && score <= 100) {
+					course->setScore(student, score);
+					student.sync();
+					student.setScore(course->id, score);
+					student.update();
+					success++;
+				} else {
+					fail++;
+				}
 			} else {
 				fail++;
 			}
-			student.update();
 		}
 		fp.close();
 		QMessageBox::information(this, "Confirm", QString(QString::fromLocal8Bit("共导入%1个，成功%2个，失败%3个")).arg(success + fail).arg(success).arg(fail));
@@ -85,6 +89,7 @@ void ViewCourseWidget::syncTable() {
 		ui.tableStudent->setItem(i, 1, new QTableWidgetItem(course->isExempt(student) ? QString::fromLocal8Bit("是") : QString::fromLocal8Bit("否")));
 		ui.tableStudent->setItem(i, 2, new QTableWidgetItem(score == -1 ? QString::fromLocal8Bit("未录入") : QString::number(score)));
 	}
+	ui.listAssistant->clear();
 	for (int i = 0; i < course->assistSize(); ++i) {
 		ui.listAssistant->addItem(QString::fromStdString(course->getAssistant(i).id));
 	}
