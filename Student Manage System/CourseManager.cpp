@@ -173,7 +173,11 @@ void CourseManager::sync() {
 		vecCourse.push_back(course);
 	}
 	fpCourse.close();
-	vecOrder = vector<int>(vecCourse[vecCourse.size() - 1]->id + 1);
+	if (vecCourse.empty()) {
+		vecOrder = vector<int>(0);
+	} else {
+		vecOrder = vector<int>(vecCourse[vecCourse.size() - 1]->id + 1);
+	}
 	for (int i = 0; i < vecCourse.size(); ++i) {
 		vecOrder[vecCourse[i]->id] = i;
 	}
